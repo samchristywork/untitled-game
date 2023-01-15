@@ -13,5 +13,16 @@ extern "C" {
 
 #[wasm_bindgen]
 pub fn greet() {
-    alert("Hello, no!");
+    // Alert
+    alert("Hello, World!");
+
+    // Create element
+    let window = web_sys::window().unwrap();
+    let document = window.document().unwrap();
+    let body = document.body().unwrap();
+
+    let val = document.create_element("div").unwrap();
+    val.set_text_content(Some("Hello, World!"));
+
+    body.append_child(&val).unwrap();
 }
