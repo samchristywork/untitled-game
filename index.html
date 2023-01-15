@@ -11,5 +11,10 @@
 </head>
 <body>
 </body>
-<script type=module src="pkg/untitled_game.js"></script>
+<script type="module">
+import init, { greet } from "./pkg/untitled_game.js";
+init().then(() => {
+  greet("WebAssembly");
+});
+</script>
 </html>
