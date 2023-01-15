@@ -1,7 +1,9 @@
 mod utils;
 
 use wasm_bindgen::prelude::*;
+use wasm_bindgen::Clamped;
 use wasm_bindgen::JsCast;
+use web_sys::{CanvasRenderingContext2d, ImageData};
 
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
@@ -50,8 +52,34 @@ pub fn run() {
         .dyn_into::<web_sys::CanvasRenderingContext2d>()
         .unwrap();
 
+    let mut data: Vec<u8> = Vec::new();
+    for _ in 1..1000000 {
+        data.push(0);
+    }
+
+    let width = 100;
+    let height = 100;
+
+    let mut data = foo(width, height);
+    let data =
+        ImageData::new_with_u8_clamped_array_and_sh(Clamped(&mut data), width, height).unwrap();
+    context.put_image_data(&data, 10.0, 0.0);
+
     context.begin_path();
     context.move_to(0.0, 0.0);
     context.line_to(100.0, 100.0);
     context.stroke();
+}
+
+fn foo(width: u32, height: u32) -> Vec<u8> {
+    let mut data = Vec::new();
+    for x in 0..width {
+        for y in 0..height {
+            data.push(255);
+            data.push(0);
+            data.push(255);
+            data.push(255);
+        }
+    }
+    data
 }
