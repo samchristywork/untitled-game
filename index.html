@@ -10,8 +10,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
 </head>
 <body>
+<canvas width="500" height="300" id="canvas"></canvas>
 </body>
 <script type="module">
+const canvas = document.querySelector('#canvas');
+let ctx = canvas.getContext('2d');
+const width = canvas.width;
+const height = canvas.height;
+
+ctx.fillStyle = '#F0DB4F';
+ctx.strokeStyle = 'red';
+
+ctx.fillRect(50, 50, 150, 100);
+ctx.strokeRect(50, 50, 150, 100);
+
 import init, { greet } from "./pkg/untitled_game.js";
 init().then(() => {
   greet("WebAssembly");
