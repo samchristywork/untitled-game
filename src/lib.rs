@@ -42,7 +42,6 @@ pub fn run() {
         .get_element_by_id("canvas")
         .unwrap()
         .dyn_into::<web_sys::HtmlCanvasElement>()
-        .map_err(|_| ())
         .unwrap();
 
     let context = canvas
@@ -73,12 +72,12 @@ pub fn run() {
 
 fn foo(width: u32, height: u32) -> Vec<u8> {
     let mut data = Vec::new();
-    for x in 0..width {
-        for y in 0..height {
-            data.push(255);
+    for y in 0..height {
+        for x in 0..width {
+            data.push(x as u8);
+            data.push(y as u8);
             data.push(0);
-            data.push(255);
-            data.push(255);
+            data.push(127);
         }
     }
     data
