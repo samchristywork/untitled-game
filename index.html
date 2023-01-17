@@ -7,42 +7,10 @@
   <link rel="stylesheet" href="style.css" type="text/css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
 </head>
 <body>
 <canvas width="500" height="300" id="canvas"></canvas>
-<img src="rust.png" id="image"></img>
 </body>
-<script type="module">
-const canvas = document.querySelector('#canvas');
-let context = canvas.getContext('2d');
-const width = canvas.width;
-const height = canvas.height;
-
-context.fillStyle = '#F0DB4F';
-context.strokeStyle = 'red';
-
-context.fillRect(50, 50, 150, 100);
-context.strokeRect(50, 50, 150, 100);
-
-import init, { greet } from "./pkg/untitled_game.js";
-init().then(() => {
-  greet("WebAssembly");
-});
-
-const arr = new Uint8ClampedArray(40_000);
-
-for (let i = 0; i < arr.length; i += 4) {
-  arr[i + 0] = 0;    // R value
-  arr[i + 1] = 190;  // G value
-  arr[i + 2] = 0;    // B value
-  arr[i + 3] = 127;  // A value
-}
-
-let imageData = new ImageData(arr, 200);
-const bmp = await createImageBitmap(imageData);
-
-context.drawImage(bmp, 0, 0);
-context.drawImage(bmp, 3, 3);
-</script>
+<script type="module" src="script.js"></script>
 </html>
