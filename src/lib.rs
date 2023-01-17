@@ -1,13 +1,18 @@
 mod utils;
 
+use std::cell::RefCell;
+use std::rc::Rc;
 use wasm_bindgen::prelude::*;
-use wasm_bindgen::Clamped;
 use wasm_bindgen::JsCast;
-use web_sys::{CanvasRenderingContext2d, ImageData};
 
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+
+#[wasm_bindgen(module = "/render.js")]
+extern "C" {
+    fn render(counter: i32);
+}
 
 #[wasm_bindgen]
 extern "C" {
@@ -18,67 +23,29 @@ extern "C" {
 }
 
 #[wasm_bindgen]
-pub fn greet() {
-    // Alert
-    alert("Hello, World!");
+pub fn status() {
+    log("OK");
+}
 
-    // Create element
-    let window = web_sys::window().unwrap();
-    let document = window.document().unwrap();
-    let body = document.body().unwrap();
-
-    let val = document.create_element("div").unwrap();
-    val.set_text_content(Some("Hello, World!"));
-
-    body.append_child(&val).unwrap();
+fn request_animation_frame(f: &Closure<dyn FnMut()>) {
+    web_sys::window()
+        .unwrap()
+        .request_animation_frame(f.as_ref().unchecked_ref())
+        .unwrap();
 }
 
 #[wasm_bindgen(start)]
 pub fn run() {
-    log("Hello, World!");
+    let f = Rc::new(RefCell::new(None));
+    let g = f.clone();
 
-    let document = web_sys::window().unwrap().document().unwrap();
-    let canvas = document
-        .get_element_by_id("canvas")
-        .unwrap()
-        .dyn_into::<web_sys::HtmlCanvasElement>()
-        .unwrap();
+    let mut counter = 0;
+    *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
+        render(counter);
+        counter += 1;
 
-    let context = canvas
-        .get_context("2d")
-        .unwrap()
-        .unwrap()
-        .dyn_into::<web_sys::CanvasRenderingContext2d>()
-        .unwrap();
+        request_animation_frame(f.borrow().as_ref().unwrap());
+    }) as Box<dyn FnMut()>));
 
-    let mut data: Vec<u8> = Vec::new();
-    for _ in 1..1000000 {
-        data.push(0);
-    }
-
-    let width = 100;
-    let height = 100;
-
-    let mut data = foo(width, height);
-    let data =
-        ImageData::new_with_u8_clamped_array_and_sh(Clamped(&mut data), width, height).unwrap();
-    context.put_image_data(&data, 10.0, 0.0);
-
-    context.begin_path();
-    context.move_to(0.0, 0.0);
-    context.line_to(100.0, 100.0);
-    context.stroke();
-}
-
-fn foo(width: u32, height: u32) -> Vec<u8> {
-    let mut data = Vec::new();
-    for y in 0..height {
-        for x in 0..width {
-            data.push(x as u8);
-            data.push(y as u8);
-            data.push(0);
-            data.push(127);
-        }
-    }
-    data
+    request_animation_frame(g.borrow().as_ref().unwrap());
 }
