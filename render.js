@@ -2,6 +2,8 @@ export function render(counter) {
   let canvas=document.querySelector("#canvas");
   let context=canvas.getContext("2d");
 
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
   var img = document.getElementById("sprites");
   context.drawImage(img, counter, 10);
 
