@@ -14,6 +14,8 @@ canvas.addEventListener("keyup", function(e) {
   debug.innerHTML=JSON.stringify(pressed);
 });
 
+canvas.focus();
+
 import init, { status } from "./pkg/untitled_game.js";
 init().then(() => {
   status();
