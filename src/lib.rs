@@ -11,7 +11,7 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen(module = "/render.js")]
 extern "C" {
-    fn render(counter: i32) -> String;
+    fn render(x: i32, y: i32) -> String;
 }
 
 #[wasm_bindgen]
@@ -39,13 +39,23 @@ pub fn run() {
     let f = Rc::new(RefCell::new(None));
     let g = f.clone();
 
-    let mut counter = 0;
+    let mut x = 0;
+    let mut y = 0;
     *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
-        let a = render(counter);
+        let a = render(x, y);
+
         if a.contains("65") {
-            counter = 0;
+            x -= 1;
         }
-        counter += 1;
+        if a.contains("68") {
+            x += 1;
+        }
+        if a.contains("87") {
+            y -= 1;
+        }
+        if a.contains("83") {
+            y += 1;
+        }
 
         request_animation_frame(f.borrow().as_ref().unwrap());
     }) as Box<dyn FnMut()>));
