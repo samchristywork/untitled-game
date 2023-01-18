@@ -1,4 +1,6 @@
 export function render(counter) {
+  let debug=document.querySelector("#debug");
+
   let canvas=document.querySelector("#canvas");
   let context=canvas.getContext("2d");
 
@@ -19,4 +21,6 @@ export function render(counter) {
 
   context.rect(counter, 0, 10, 10);
   context.stroke();
+
+  return debug.innerHTML;
 }
