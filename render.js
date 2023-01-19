@@ -1,4 +1,6 @@
-export function render(x, y) {
+export function render(x, y, s) {
+  console.log(s);
+
   let debug=document.querySelector("#debug");
 
   let canvas=document.querySelector("#canvas");

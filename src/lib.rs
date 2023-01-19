@@ -1,5 +1,6 @@
 mod utils;
 
+use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 use std::rc::Rc;
 use wasm_bindgen::prelude::*;
@@ -11,7 +12,7 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen(module = "/render.js")]
 extern "C" {
-    fn render(x: i32, y: i32) -> String;
+    fn render(x: i32, y: i32, s: String) -> String;
 }
 
 #[wasm_bindgen]
@@ -34,6 +35,14 @@ fn request_animation_frame(f: &Closure<dyn FnMut()>) {
         .unwrap();
 }
 
+#[derive(Serialize, Deserialize)]
+struct Sprite {
+    name: String,
+    x: u32,
+    y: u32,
+    idx: u32,
+}
+
 #[wasm_bindgen(start)]
 pub fn run() {
     let f = Rc::new(RefCell::new(None));
@@ -41,8 +50,15 @@ pub fn run() {
 
     let mut x = 0;
     let mut y = 0;
+    let mut sprite = Sprite {
+        name: "Hi".to_string(),
+        x: 10,
+        y: 10,
+        idx: 1,
+    };
+
     *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
-        let a = render(x, y);
+        let a = render(x, y, serde_json::to_string(&sprite).unwrap());
 
         if a.contains("65") {
             x -= 1;
