@@ -1,6 +1,4 @@
 export function render(x, y, s) {
-  console.log(s);
-
   let debug=document.querySelector("#debug");
 
   let canvas=document.querySelector("#canvas");
@@ -11,9 +9,12 @@ export function render(x, y, s) {
   var img = document.getElementById("sprites");
 
   context.save();
-  context.translate(x, y);
-  context.rotate(Math.PI / 2);
-  let sx=16;
+  let sprite=JSON.parse(s);
+  context.translate(sprite.x, sprite.y);
+  context.font = "14px serif";
+  context.fillText(s, 0, 0);
+  context.rotate(sprite.rotation * Math.PI / 2);
+  let sx=16 * sprite.idx;
   let sy=0;
   let swidth=16;
   let sheight=16;

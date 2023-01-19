@@ -38,8 +38,9 @@ fn request_animation_frame(f: &Closure<dyn FnMut()>) {
 #[derive(Serialize, Deserialize)]
 struct Sprite {
     name: String,
-    x: u32,
-    y: u32,
+    x: i32,
+    y: i32,
+    rotation: i32,
     idx: u32,
 }
 
@@ -51,9 +52,10 @@ pub fn run() {
     let mut x = 0;
     let mut y = 0;
     let mut sprite = Sprite {
-        name: "Hi".to_string(),
+        name: "Arrow".to_string(),
         x: 10,
         y: 10,
+        rotation: 1,
         idx: 1,
     };
 
@@ -61,16 +63,16 @@ pub fn run() {
         let a = render(x, y, serde_json::to_string(&sprite).unwrap());
 
         if a.contains("65") {
-            x -= 1;
+            sprite.x -= 1;
         }
         if a.contains("68") {
-            x += 1;
+            sprite.x += 1;
         }
         if a.contains("87") {
-            y -= 1;
+            sprite.y -= 1;
         }
         if a.contains("83") {
-            y += 1;
+            sprite.y += 1;
         }
 
         request_animation_frame(f.borrow().as_ref().unwrap());
