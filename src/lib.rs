@@ -12,7 +12,7 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen(module = "/render.js")]
 extern "C" {
-    fn render(x: i32, y: i32, s: String) -> String;
+    fn render(s: String) -> String;
 }
 
 #[wasm_bindgen]
@@ -49,8 +49,6 @@ pub fn run() {
     let f = Rc::new(RefCell::new(None));
     let g = f.clone();
 
-    let mut x = 0;
-    let mut y = 0;
     let mut sprites = vec![
         Sprite {
             name: "Arrow".to_string(),
@@ -69,7 +67,7 @@ pub fn run() {
     ];
 
     *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
-        let a = render(x, y, serde_json::to_string(&sprites).unwrap());
+        let a = render(serde_json::to_string(&sprites).unwrap());
 
         if a.contains("65") {
             sprites[0].x -= 1;

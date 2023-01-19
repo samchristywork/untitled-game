@@ -1,4 +1,4 @@
-export function render(x, y, s) {
+export function render(s) {
   let sprites=JSON.parse(s);
 
   let debug=document.querySelector("#debug");
