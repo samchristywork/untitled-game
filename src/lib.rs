@@ -51,28 +51,37 @@ pub fn run() {
 
     let mut x = 0;
     let mut y = 0;
-    let mut sprite = Sprite {
-        name: "Arrow".to_string(),
-        x: 10,
-        y: 10,
-        rotation: 1,
-        idx: 1,
-    };
+    let mut sprites = vec![
+        Sprite {
+            name: "Arrow".to_string(),
+            x: 10,
+            y: 10,
+            rotation: 1,
+            idx: 1,
+        },
+        Sprite {
+            name: "TEST".to_string(),
+            x: 100,
+            y: 100,
+            rotation: 0,
+            idx: 0,
+        },
+    ];
 
     *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
-        let a = render(x, y, serde_json::to_string(&sprite).unwrap());
+        let a = render(x, y, serde_json::to_string(&sprites).unwrap());
 
         if a.contains("65") {
-            sprite.x -= 1;
+            sprites[0].x -= 1;
         }
         if a.contains("68") {
-            sprite.x += 1;
+            sprites[0].x += 1;
         }
         if a.contains("87") {
-            sprite.y -= 1;
+            sprites[0].y -= 1;
         }
         if a.contains("83") {
-            sprite.y += 1;
+            sprites[0].y += 1;
         }
 
         request_animation_frame(f.borrow().as_ref().unwrap());
