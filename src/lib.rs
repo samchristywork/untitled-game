@@ -1,5 +1,6 @@
 mod utils;
 
+use rand::Rng;
 use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 use std::rc::Rc;
