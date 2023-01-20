@@ -7,6 +7,12 @@ use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 
+#[derive(Serialize, Deserialize, PartialEq)]
+enum Behavior {
+    Static,
+    Dynamic,
+}
+
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
@@ -43,6 +49,7 @@ struct Sprite {
     y: i32,
     rotation: i32,
     idx: u32,
+    behavior: Behavior,
     show_debug: bool,
 }
 
@@ -58,6 +65,7 @@ pub fn run() {
             y: 10,
             rotation: 1,
             idx: 1,
+            behavior: Behavior::Static,
             show_debug: true,
         },
         Sprite {
@@ -66,11 +74,31 @@ pub fn run() {
             y: 100,
             rotation: 0,
             idx: 0,
+            behavior: Behavior::Static,
             show_debug: true,
         },
     ];
 
+    let mut rng = rand::thread_rng();
     *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
+        while sprites.len() < 10 {
+            sprites.push(Sprite {
+                name: "Arrow".to_string(),
+                x: rng.gen_range(-100..100) - 100,
+                y: rng.gen_range(-100..100) + 150,
+                rotation: 1,
+                idx: 1,
+                behavior: Behavior::Dynamic,
+                show_debug: false,
+            })
+        }
+
+        for sprite in &mut sprites {
+            if sprite.behavior == Behavior::Dynamic {
+                sprite.x += 10;
+            }
+        }
+
         let a = render(serde_json::to_string(&sprites).unwrap());
 
         if a.contains("65") {
