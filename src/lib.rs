@@ -81,7 +81,12 @@ pub fn run() {
 
     let mut rng = rand::thread_rng();
     *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
-        while sprites.len() < 10 {
+        while sprites
+            .iter()
+            .filter(|e| e.behavior == Behavior::Dynamic)
+            .count()
+            < 100
+        {
             sprites.push(Sprite {
                 name: "Arrow".to_string(),
                 x: rng.gen_range(-100..100) - 100,
