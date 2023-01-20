@@ -14,7 +14,9 @@ export function render(s) {
     context.save();
     context.translate(sprite.x, sprite.y);
     context.font = "14px serif";
-    context.fillText(JSON.stringify(sprite), 0, 0);
+    if (sprite.show_debug){
+      context.fillText(JSON.stringify(sprite), 0, 0);
+    }
     context.rotate(sprite.rotation * Math.PI / 2);
     let sx=16 * sprite.idx;
     let sy=0;

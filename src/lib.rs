@@ -43,6 +43,7 @@ struct Sprite {
     y: i32,
     rotation: i32,
     idx: u32,
+    show_debug: bool,
 }
 
 #[wasm_bindgen(start)]
@@ -57,6 +58,7 @@ pub fn run() {
             y: 10,
             rotation: 1,
             idx: 1,
+            show_debug: true,
         },
         Sprite {
             name: "TEST".to_string(),
@@ -64,6 +66,7 @@ pub fn run() {
             y: 100,
             rotation: 0,
             idx: 0,
+            show_debug: true,
         },
     ];
 
