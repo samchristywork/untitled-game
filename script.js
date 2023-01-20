@@ -16,6 +16,9 @@ canvas.addEventListener("keyup", function(e) {
 
 canvas.focus();
 
+let context=canvas.getContext("2d");
+context.font = "14px serif";
+
 import init, { status } from "./pkg/untitled_game.js";
 init().then(() => {
   status();

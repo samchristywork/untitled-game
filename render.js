@@ -13,7 +13,6 @@ export function render(s) {
   for (let sprite of sprites) {
     context.save();
     context.translate(sprite.x, sprite.y);
-    context.font = "14px serif";
     if (sprite.show_debug){
       context.fillText(JSON.stringify(sprite), 0, 0);
     }
