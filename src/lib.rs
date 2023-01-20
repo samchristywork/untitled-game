@@ -113,6 +113,11 @@ pub fn run() {
         if a.contains("83") {
             sprites[0].y += 1;
         }
+        if a.contains("27") {
+            return;
+        }
+
+        sprites.retain(|e| !(e.behavior == Behavior::Dynamic && e.x > 500));
 
         request_animation_frame(f.borrow().as_ref().unwrap());
     }) as Box<dyn FnMut()>));
