@@ -59,26 +59,26 @@ pub fn run() {
     let f = Rc::new(RefCell::new(None));
     let g = f.clone();
 
-    let mut sprites = vec![
-        Sprite {
-            name: "Arrow".to_string(),
-            x: 10,
-            y: 10,
-            rotation: 1,
-            idx: 1,
-            behavior: Behavior::Controllable,
-            show_debug: true,
-        },
-        Sprite {
+    let mut sprites = vec![Sprite {
+        name: "Arrow".to_string(),
+        x: 10,
+        y: 10,
+        rotation: 1,
+        idx: 1,
+        behavior: Behavior::Controllable,
+        show_debug: true,
+    }];
+    for i in 0..7 {
+        sprites.push(Sprite {
             name: "TEST".to_string(),
-            x: 100,
-            y: 100,
+            x: 100 + 40 * i,
+            y: 250,
             rotation: 0,
-            idx: 0,
+            idx: i as u32,
             behavior: Behavior::Static,
-            show_debug: true,
-        },
-    ];
+            show_debug: false,
+        });
+    }
 
     let mut rng = rand::thread_rng();
     *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
