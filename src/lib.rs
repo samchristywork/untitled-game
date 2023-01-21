@@ -18,7 +18,7 @@ enum Behavior {
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
-#[wasm_bindgen(module = "/render.js")]
+#[wasm_bindgen(module = "/public/render.js")]
 extern "C" {
     fn render(s: String) -> String;
 }
