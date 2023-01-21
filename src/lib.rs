@@ -68,7 +68,7 @@ pub fn run() {
         behavior: Behavior::Controllable,
         show_debug: true,
     }];
-    for i in 0..8 {
+    for i in 0..10 {
         sprites.push(Sprite {
             name: "TEST".to_string(),
             x: 100 + 40 * i,
