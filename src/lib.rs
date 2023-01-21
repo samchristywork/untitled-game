@@ -9,8 +9,9 @@ use wasm_bindgen::JsCast;
 
 #[derive(Serialize, Deserialize, PartialEq)]
 enum Behavior {
-    Static,
+    Controllable,
     Dynamic,
+    Static,
 }
 
 #[cfg(feature = "wee_alloc")]
@@ -65,7 +66,7 @@ pub fn run() {
             y: 10,
             rotation: 1,
             idx: 1,
-            behavior: Behavior::Static,
+            behavior: Behavior::Controllable,
             show_debug: true,
         },
         Sprite {
@@ -106,18 +107,23 @@ pub fn run() {
 
         let a = render(serde_json::to_string(&sprites).unwrap());
 
-        if a.contains("65") {
-            sprites[0].x -= 1;
+        for sprite in &mut sprites {
+            if sprite.behavior == Behavior::Controllable {
+                if a.contains("65") {
+                    sprite.x -= 1;
+                }
+                if a.contains("68") {
+                    sprite.x += 1;
+                }
+                if a.contains("87") {
+                    sprite.y -= 1;
+                }
+                if a.contains("83") {
+                    sprite.y += 1;
+                }
+            }
         }
-        if a.contains("68") {
-            sprites[0].x += 1;
-        }
-        if a.contains("87") {
-            sprites[0].y -= 1;
-        }
-        if a.contains("83") {
-            sprites[0].y += 1;
-        }
+
         if a.contains("27") {
             return;
         }
