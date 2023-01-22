@@ -141,11 +141,23 @@ pub fn run() {
             })
         }
 
-        for sprite in &mut sprites {
-            if sprite.behavior == Behavior::Dynamic {
-                sprite.x += 10;
+        for idx in 0..sprites.len() {
+            if sprites[idx].behavior == Behavior::Dynamic {
+                sprites[idx].x += 10;
+            }
+
+            if sprites[idx].attributes.contains(&Attributes::Player) {
+                for idx2 in 0..sprites.len() {
+                    if sprites[idx2].attributes.contains(&Attributes::Consumable) {
+                        if sprites[idx].collides_with(&sprites[idx2]) {
+                            sprites[idx2].attributes.push(Attributes::Consumed);
+                        }
+                    }
+                }
             }
         }
+
+        sprites.retain(|e| !e.attributes.contains(&Attributes::Consumed));
 
         let a = render(serde_json::to_string(&sprites).unwrap());
 
