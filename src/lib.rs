@@ -15,7 +15,7 @@ enum Behavior {
 }
 
 #[derive(Serialize, Deserialize, PartialEq)]
-enum Attributes {
+enum Attribute {
     Consumable,
     Consumed,
     Harmful,
@@ -67,7 +67,7 @@ struct Sprite {
     rotation: i32,
     idx: u32,
     behavior: Behavior,
-    attributes: Vec<Attributes>,
+    attributes: Vec<Attribute>,
     show_debug: bool,
 }
 
@@ -101,7 +101,7 @@ pub fn run() {
             rotation: 0,
             idx: 6,
             behavior: Behavior::Controllable,
-            attributes: vec![Attributes::Player],
+            attributes: vec![Attribute::Player],
             show_debug: true,
         },
         Sprite {
@@ -111,7 +111,7 @@ pub fn run() {
             rotation: 0,
             idx: 7,
             behavior: Behavior::Static,
-            attributes: vec![Attributes::Consumable],
+            attributes: vec![Attribute::Healing, Attribute::Consumable],
             show_debug: false,
         },
     ];
@@ -123,7 +123,7 @@ pub fn run() {
             rotation: 0,
             idx: i as u32,
             behavior: Behavior::Static,
-            attributes: vec![Attributes::Static],
+            attributes: vec![Attribute::Static],
             show_debug: false,
         });
     }
@@ -143,7 +143,7 @@ pub fn run() {
                 rotation: 1,
                 idx: 1,
                 behavior: Behavior::Dynamic,
-                attributes: vec![Attributes::Harmful, Attributes::Consumable],
+                attributes: vec![Attribute::Harmful, Attribute::Consumable],
                 show_debug: false,
             })
         }
@@ -153,9 +153,9 @@ pub fn run() {
                 sprites[idx].x += 10;
             }
 
-            if sprites[idx].attributes.contains(&Attributes::Player) {
+            if sprites[idx].attributes.contains(&Attribute::Player) {
                 for idx2 in 0..sprites.len() {
-                    if sprites[idx2].attributes.contains(&Attributes::Consumable) {
+                    if sprites[idx2].attributes.contains(&Attribute::Consumable) {
                         if sprites[idx].collides_with(&sprites[idx2]) {
                             sprites[idx2].attributes.push(Attributes::Consumed);
                         }
@@ -164,7 +164,7 @@ pub fn run() {
             }
         }
 
-        sprites.retain(|e| !e.attributes.contains(&Attributes::Consumed));
+        sprites.retain(|e| !e.attributes.contains(&Attribute::Consumed));
 
         let a = render(
             serde_json::to_string(&sprites).unwrap(),
