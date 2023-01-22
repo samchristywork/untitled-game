@@ -1,5 +1,7 @@
-export function render(s) {
+export function render(s, t) {
   let sprites=JSON.parse(s);
+
+  let text=JSON.parse(t);
 
   let debug=document.querySelector("#debug");
 
@@ -9,6 +11,10 @@ export function render(s) {
   context.clearRect(0, 0, canvas.width, canvas.height);
 
   var img = document.getElementById("sprites");
+
+  for (let t of text) {
+      context.fillText(t.text, t.x, t.y);
+  }
 
   for (let sprite of sprites) {
     context.save();

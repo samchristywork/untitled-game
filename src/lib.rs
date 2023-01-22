@@ -29,7 +29,7 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen(module = "/public/render.js")]
 extern "C" {
-    fn render(s: String) -> String;
+    fn render(s: String, text: String) -> String;
 }
 
 #[wasm_bindgen]
@@ -50,6 +50,13 @@ fn request_animation_frame(f: &Closure<dyn FnMut()>) {
         .unwrap()
         .request_animation_frame(f.as_ref().unchecked_ref())
         .unwrap();
+}
+
+#[derive(Serialize, Deserialize)]
+struct Text {
+    text: String,
+    x: i32,
+    y: i32,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -159,7 +166,15 @@ pub fn run() {
 
         sprites.retain(|e| !e.attributes.contains(&Attributes::Consumed));
 
-        let a = render(serde_json::to_string(&sprites).unwrap());
+        let a = render(
+            serde_json::to_string(&sprites).unwrap(),
+            serde_json::to_string(&[Text {
+                text: format!("Hello, World!"),
+                x: 100,
+                y: 100,
+            }])
+            .unwrap(),
+        );
 
         for sprite in &mut sprites {
             if sprite.behavior == Behavior::Controllable {
