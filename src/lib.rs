@@ -97,6 +97,16 @@ pub fn run() {
             attributes: vec![Attributes::Player],
             show_debug: true,
         },
+        Sprite {
+            name: "Heart".to_string(),
+            x: 100,
+            y: 20,
+            rotation: 0,
+            idx: 7,
+            behavior: Behavior::Static,
+            attributes: vec![Attributes::Consumable],
+            show_debug: false,
+        },
     ];
     for i in 0..10 {
         sprites.push(Sprite {
@@ -117,7 +127,7 @@ pub fn run() {
             .iter()
             .filter(|e| e.behavior == Behavior::Dynamic)
             .count()
-            < 100
+            < 10
         {
             sprites.push(Sprite {
                 name: "Arrow".to_string(),
@@ -126,7 +136,7 @@ pub fn run() {
                 rotation: 1,
                 idx: 1,
                 behavior: Behavior::Dynamic,
-                attributes: vec![Attributes::Harmful],
+                attributes: vec![Attributes::Harmful, Attributes::Consumable],
                 show_debug: false,
             })
         }
