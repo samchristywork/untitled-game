@@ -118,10 +118,10 @@ pub fn run() {
             show_debug: false,
         },
     ];
-    for i in 0..10 {
+    for i in 0..11 {
         sprites.push(Sprite {
             name: "TEST".to_string(),
-            x: 100 + 40 * i,
+            x: 30 + 30 * i,
             y: 250,
             rotation: 0,
             idx: i as u32,
