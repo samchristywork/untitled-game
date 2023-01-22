@@ -178,7 +178,7 @@ pub fn run() {
         let a = render(
             serde_json::to_string(&sprites).unwrap(),
             serde_json::to_string(&[Text {
-                text: format!("Hello, World!"),
+                text: format!("Health: {current_health}"),
                 x: 100,
                 y: 100,
             }])
