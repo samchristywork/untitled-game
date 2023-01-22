@@ -64,6 +64,23 @@ struct Sprite {
     show_debug: bool,
 }
 
+fn dist_squared(x1: i32, y1: i32, x2: i32, y2: i32) -> i32 {
+    let dx = x1 - x2;
+    let dy = y1 - y2;
+
+    dx * dx + dy * dy
+}
+
+impl Sprite {
+    fn collides_with(&self, s: &Sprite) -> bool {
+        if dist_squared(self.x, self.y, s.x, s.y) < 100 {
+            true
+        } else {
+            false
+        }
+    }
+}
+
 #[wasm_bindgen(start)]
 pub fn run() {
     let f = Rc::new(RefCell::new(None));
