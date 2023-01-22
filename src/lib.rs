@@ -14,6 +14,15 @@ enum Behavior {
     Static,
 }
 
+#[derive(Serialize, Deserialize, PartialEq)]
+enum Attributes {
+    Consumable,
+    Consumed,
+    Harmful,
+    Player,
+    Static,
+}
+
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
@@ -51,6 +60,7 @@ struct Sprite {
     rotation: i32,
     idx: u32,
     behavior: Behavior,
+    attributes: Vec<Attributes>,
     show_debug: bool,
 }
 
@@ -59,15 +69,18 @@ pub fn run() {
     let f = Rc::new(RefCell::new(None));
     let g = f.clone();
 
-    let mut sprites = vec![Sprite {
-        name: "Arrow".to_string(),
-        x: 10,
-        y: 10,
-        rotation: 1,
-        idx: 1,
-        behavior: Behavior::Controllable,
-        show_debug: true,
-    }];
+    let mut sprites = vec![
+        Sprite {
+            name: "Human".to_string(),
+            x: 10,
+            y: 10,
+            rotation: 0,
+            idx: 6,
+            behavior: Behavior::Controllable,
+            attributes: vec![Attributes::Player],
+            show_debug: true,
+        },
+    ];
     for i in 0..10 {
         sprites.push(Sprite {
             name: "TEST".to_string(),
@@ -76,6 +89,7 @@ pub fn run() {
             rotation: 0,
             idx: i as u32,
             behavior: Behavior::Static,
+            attributes: vec![Attributes::Static],
             show_debug: false,
         });
     }
@@ -95,6 +109,7 @@ pub fn run() {
                 rotation: 1,
                 idx: 1,
                 behavior: Behavior::Dynamic,
+                attributes: vec![Attributes::Harmful],
                 show_debug: false,
             })
         }
