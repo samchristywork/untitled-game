@@ -19,6 +19,7 @@ enum Attribute {
     Consumable,
     Consumed,
     Harmful,
+    Healing,
     Player,
     Static,
 }
@@ -90,6 +91,8 @@ impl Sprite {
 
 #[wasm_bindgen(start)]
 pub fn run() {
+    let mut current_health = 100;
+
     let f = Rc::new(RefCell::new(None));
     let g = f.clone();
 
@@ -139,7 +142,7 @@ pub fn run() {
             sprites.push(Sprite {
                 name: "Arrow".to_string(),
                 x: rng.gen_range(-100..100) - 100,
-                y: rng.gen_range(-100..100) + 150,
+                y: rng.gen_range(-33..33) + 150,
                 rotation: 1,
                 idx: 1,
                 behavior: Behavior::Dynamic,
@@ -157,7 +160,13 @@ pub fn run() {
                 for idx2 in 0..sprites.len() {
                     if sprites[idx2].attributes.contains(&Attribute::Consumable) {
                         if sprites[idx].collides_with(&sprites[idx2]) {
-                            sprites[idx2].attributes.push(Attributes::Consumed);
+                            sprites[idx2].attributes.push(Attribute::Consumed);
+                            if sprites[idx2].attributes.contains(&Attribute::Harmful) {
+                                current_health -= 1;
+                            }
+                            if sprites[idx2].attributes.contains(&Attribute::Healing) {
+                                current_health = 100;
+                            }
                         }
                     }
                 }
