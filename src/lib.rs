@@ -187,17 +187,23 @@ pub fn run() {
 
         for sprite in &mut sprites {
             if sprite.behavior == Behavior::Controllable {
+                let mut speed = 1;
+
+                if a.contains("16") {
+                    speed = 3;
+                }
+
                 if a.contains("65") {
-                    sprite.x -= 1;
+                    sprite.x -= speed;
                 }
                 if a.contains("68") {
-                    sprite.x += 1;
+                    sprite.x += speed;
                 }
                 if a.contains("87") {
-                    sprite.y -= 1;
+                    sprite.y -= speed;
                 }
                 if a.contains("83") {
-                    sprite.y += 1;
+                    sprite.y += speed;
                 }
             }
         }
