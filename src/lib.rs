@@ -112,8 +112,8 @@ pub fn run() {
         },
         Sprite {
             name: "Heart".to_string(),
-            x: 100,
-            y: 20,
+            x: 450,
+            y: 275,
             rotation: 0,
             scale: 1.0,
             idx: 7,
@@ -122,11 +122,12 @@ pub fn run() {
             show_debug: false,
         },
     ];
-    for i in 0..11 {
+
+    for i in 0..12 {
         sprites.push(Sprite {
             name: "TEST".to_string(),
-            x: 30 + 30 * i,
-            y: 250,
+            x: 0 + 16 * i,
+            y: 275,
             rotation: 0,
             scale: 1.0,
             idx: i as u32,
@@ -206,8 +207,8 @@ pub fn run() {
             serde_json::to_string(&sprites).unwrap(),
             serde_json::to_string(&[Text {
                 text: format!("Health: {current_health}"),
-                x: 100,
-                y: 100,
+                x: 430,
+                y: 16,
             }])
             .unwrap(),
         );
