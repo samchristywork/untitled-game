@@ -174,6 +174,13 @@ pub fn run() {
         for idx in 0..sprites.len() {
             if sprites[idx].behavior == Behavior::Dynamic {
                 sprites[idx].x += 10;
+                for idx2 in 0..sprites.len() {
+                    if sprites[idx2].attributes.contains(&Attribute::Blocking) {
+                        if sprites[idx].collides_with(&sprites[idx2]) {
+                            sprites[idx].attributes.push(Attribute::Consumed);
+                        }
+                    }
+                }
             }
 
             if sprites[idx].attributes.contains(&Attribute::Player) {
