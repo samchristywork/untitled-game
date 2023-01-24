@@ -228,12 +228,6 @@ pub fn run() {
                     if sprites[idx2].attributes.contains(&Attribute::Consumable) {
                         if sprites[idx].collides_with(&sprites[idx2]) {
                             sprites[idx2].attributes.push(Attribute::Consumed);
-                            if sprites[idx2].attributes.contains(&Attribute::Harmful) {
-                                current_health -= 1;
-                            }
-                            if sprites[idx2].attributes.contains(&Attribute::Healing) {
-                                current_health = 100;
-                            }
                         }
                     }
                 }
