@@ -8,6 +8,7 @@ export function render(s, t) {
   let canvas=document.querySelector("#canvas");
   let context=canvas.getContext("2d");
 
+  context.imageSmoothingEnabled = false;
   context.clearRect(0, 0, canvas.width, canvas.height);
 
   var background = document.getElementById("sand");
@@ -22,6 +23,7 @@ export function render(s, t) {
   for (let sprite of sprites) {
     context.save();
     context.translate(sprite.x, sprite.y);
+    context.scale(sprite.scale, sprite.scale);
     if (sprite.show_debug){
       context.fillText(JSON.stringify(sprite), 0, 0);
     }
