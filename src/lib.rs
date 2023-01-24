@@ -17,6 +17,7 @@ enum Attribute {
     Dynamic,
     Harmful,
     Healing,
+    Moving,
     Player,
 }
 
@@ -116,6 +117,17 @@ pub fn run() {
             show_debug: false,
             flip: false,
         },
+        Sprite {
+            name: "Snek".to_string(),
+            x: 400,
+            y: 30,
+            rotation: 0,
+            scale: 1.0,
+            idx: 10,
+            attributes: vec![Attribute::Moving, Attribute::Harmful],
+            show_debug: false,
+            flip: false,
+        },
     ];
 
     for i in 0..12 {
@@ -147,6 +159,8 @@ pub fn run() {
     }
 
     let mut rng = rand::thread_rng();
+    let mut frame = 0;
+
     *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
         while sprites
             .iter()
@@ -172,6 +186,16 @@ pub fn run() {
         }
 
         for idx in 0..sprites.len() {
+            if sprites[idx].attributes.contains(&Attribute::Moving) {
+                if frame % 256 >= 128 {
+                    sprites[idx].x += 1;
+                    sprites[idx].flip = false;
+                } else {
+                    sprites[idx].x -= 1;
+                    sprites[idx].flip = true;
+                }
+            }
+
             if sprites[idx].attributes.contains(&Attribute::Dynamic) {
                 sprites[idx].x += 10;
                 for idx2 in 0..sprites.len() {
@@ -254,6 +278,8 @@ pub fn run() {
         }
 
         sprites.retain(|e| !(e.attributes.contains(&Attribute::Dynamic) && e.x > 500));
+
+        frame += 1;
 
         request_animation_frame(f.borrow().as_ref().unwrap());
     }) as Box<dyn FnMut()>));
