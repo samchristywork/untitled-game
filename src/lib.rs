@@ -7,22 +7,17 @@ use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 
-#[derive(Serialize, Deserialize, PartialEq)]
-enum Behavior {
-    Controllable,
-    Dynamic,
-    Static,
-}
 
 #[derive(Serialize, Deserialize, PartialEq)]
 enum Attribute {
     Blocking,
     Consumable,
     Consumed,
+    Controllable,
+    Dynamic,
     Harmful,
     Healing,
     Player,
-    Static,
 }
 
 #[cfg(feature = "wee_alloc")]
@@ -69,7 +64,6 @@ struct Sprite {
     rotation: i32,
     scale: f32,
     idx: u32,
-    behavior: Behavior,
     attributes: Vec<Attribute>,
     show_debug: bool,
     flip: bool,
@@ -107,8 +101,7 @@ pub fn run() {
             rotation: 0,
             scale: 1.0,
             idx: 6,
-            behavior: Behavior::Controllable,
-            attributes: vec![Attribute::Player],
+            attributes: vec![Attribute::Player, Attribute::Controllable],
             show_debug: true,
             flip: false,
         },
@@ -119,7 +112,6 @@ pub fn run() {
             rotation: 0,
             scale: 1.0,
             idx: 7,
-            behavior: Behavior::Static,
             attributes: vec![Attribute::Healing, Attribute::Consumable],
             show_debug: false,
             flip: false,
@@ -134,8 +126,7 @@ pub fn run() {
             rotation: 0,
             scale: 1.0,
             idx: i as u32,
-            behavior: Behavior::Static,
-            attributes: vec![Attribute::Static],
+            attributes: vec![],
             show_debug: false,
             flip: false,
         });
@@ -149,7 +140,6 @@ pub fn run() {
             rotation: 0,
             scale: 1.0,
             idx: 9,
-            behavior: Behavior::Static,
             attributes: vec![Attribute::Blocking],
             show_debug: false,
             flip: false,
@@ -160,7 +150,7 @@ pub fn run() {
     *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
         while sprites
             .iter()
-            .filter(|e| e.behavior == Behavior::Dynamic)
+            .filter(|e| e.attributes.contains(&Attribute::Dynamic))
             .count()
             < 10
         {
@@ -171,15 +161,18 @@ pub fn run() {
                 rotation: 1,
                 scale: 1.0,
                 idx: 1,
-                behavior: Behavior::Dynamic,
-                attributes: vec![Attribute::Harmful, Attribute::Consumable],
+                attributes: vec![
+                    Attribute::Harmful,
+                    Attribute::Consumable,
+                    Attribute::Dynamic,
+                ],
                 show_debug: false,
                 flip: false,
             })
         }
 
         for idx in 0..sprites.len() {
-            if sprites[idx].behavior == Behavior::Dynamic {
+            if sprites[idx].attributes.contains(&Attribute::Dynamic) {
                 sprites[idx].x += 10;
                 for idx2 in 0..sprites.len() {
                     if sprites[idx2].attributes.contains(&Attribute::Blocking) {
@@ -220,7 +213,7 @@ pub fn run() {
         );
 
         for idx in 0..sprites.len() {
-            if sprites[idx].behavior == Behavior::Controllable {
+            if sprites[idx].attributes.contains(&Attribute::Controllable) {
                 let mut speed = 1;
 
                 let current_x = sprites[idx].x;
@@ -260,7 +253,7 @@ pub fn run() {
             return;
         }
 
-        sprites.retain(|e| !(e.behavior == Behavior::Dynamic && e.x > 500));
+        sprites.retain(|e| !(e.attributes.contains(&Attribute::Dynamic) && e.x > 500));
 
         request_animation_frame(f.borrow().as_ref().unwrap());
     }) as Box<dyn FnMut()>));
