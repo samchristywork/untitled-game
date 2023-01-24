@@ -17,6 +17,7 @@ enum Attribute {
     Dynamic,
     Harmful,
     Healing,
+    Invisible,
     Moving,
     Player,
 }
@@ -68,6 +69,7 @@ struct Sprite {
     attributes: Vec<Attribute>,
     show_debug: bool,
     flip: bool,
+    invisible: bool,
 }
 
 fn dist_squared(x1: i32, y1: i32, x2: i32, y2: i32) -> i32 {
@@ -105,6 +107,7 @@ pub fn run() {
             attributes: vec![Attribute::Player, Attribute::Controllable],
             show_debug: true,
             flip: false,
+            invisible: false,
         },
         Sprite {
             name: "Heart".to_string(),
@@ -116,6 +119,7 @@ pub fn run() {
             attributes: vec![Attribute::Healing, Attribute::Consumable],
             show_debug: false,
             flip: false,
+            invisible: false,
         },
         Sprite {
             name: "Snek".to_string(),
@@ -127,6 +131,7 @@ pub fn run() {
             attributes: vec![Attribute::Moving, Attribute::Harmful],
             show_debug: false,
             flip: false,
+            invisible: true,
         },
     ];
 
@@ -141,6 +146,7 @@ pub fn run() {
             attributes: vec![],
             show_debug: false,
             flip: false,
+            invisible: false,
         });
     }
 
@@ -155,6 +161,7 @@ pub fn run() {
             attributes: vec![Attribute::Blocking],
             show_debug: false,
             flip: false,
+            invisible: false,
         });
     }
 
@@ -182,6 +189,7 @@ pub fn run() {
                 ],
                 show_debug: false,
                 flip: false,
+                invisible: false,
             })
         }
 
@@ -196,6 +204,7 @@ pub fn run() {
                 }
             }
 
+            // Dynamic
             if sprites[idx].attributes.contains(&Attribute::Dynamic) {
                 sprites[idx].x += 10;
                 for idx2 in 0..sprites.len() {
@@ -207,7 +216,9 @@ pub fn run() {
                 }
             }
 
+            // Player
             if sprites[idx].attributes.contains(&Attribute::Player) {
+                // Harm
                 for idx2 in 0..sprites.len() {
                     if sprites[idx2].attributes.contains(&Attribute::Harmful) {
                         if sprites[idx].collides_with(&sprites[idx2]) {
@@ -216,6 +227,7 @@ pub fn run() {
                     }
                 }
 
+                // Healing
                 for idx2 in 0..sprites.len() {
                     if sprites[idx2].attributes.contains(&Attribute::Healing) {
                         if sprites[idx].collides_with(&sprites[idx2]) {
@@ -224,6 +236,7 @@ pub fn run() {
                     }
                 }
 
+                // Consuming
                 for idx2 in 0..sprites.len() {
                     if sprites[idx2].attributes.contains(&Attribute::Consumable) {
                         if sprites[idx].collides_with(&sprites[idx2]) {
@@ -236,7 +249,7 @@ pub fn run() {
 
         sprites.retain(|e| !e.attributes.contains(&Attribute::Consumed));
 
-        let a = render(
+        let keyboard_state = render(
             serde_json::to_string(&sprites).unwrap(),
             serde_json::to_string(&[Text {
                 text: format!("Health: {current_health}"),
@@ -253,25 +266,26 @@ pub fn run() {
                 let current_x = sprites[idx].x;
                 let current_y = sprites[idx].y;
 
-                if a.contains("16") {
+                if keyboard_state.contains("16") {
                     speed = 3;
                 }
 
-                if a.contains("65") {
+                if keyboard_state.contains("65") {
                     sprites[idx].x -= speed;
                     sprites[idx].flip = true;
                 }
-                if a.contains("68") {
+                if keyboard_state.contains("68") {
                     sprites[idx].x += speed;
                     sprites[idx].flip = false;
                 }
-                if a.contains("87") {
+                if keyboard_state.contains("87") {
                     sprites[idx].y -= speed;
                 }
-                if a.contains("83") {
+                if keyboard_state.contains("83") {
                     sprites[idx].y += speed;
                 }
 
+                // Blocking
                 for idx2 in 0..sprites.len() {
                     if sprites[idx2].attributes.contains(&Attribute::Blocking) {
                         if sprites[idx].collides_with(&sprites[idx2]) {
@@ -283,7 +297,7 @@ pub fn run() {
             }
         }
 
-        if a.contains("27") {
+        if keyboard_state.contains("27") {
             return;
         }
 

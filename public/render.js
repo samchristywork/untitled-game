@@ -24,9 +24,11 @@ export function render(s, t) {
     context.save();
     context.translate(sprite.x, sprite.y);
     context.scale(sprite.scale, sprite.scale);
+
     if (sprite.show_debug){
       context.fillText(JSON.stringify(sprite), 0, 0);
     }
+
     context.rotate(sprite.rotation * Math.PI / 2);
     let sx=16 * sprite.idx;
     let sy=0;
@@ -36,11 +38,21 @@ export function render(s, t) {
     let dy=0;
     let dwidth=16;
     let dheight=16;
+
     if (sprite.flip) {
       context.scale(-1, 1);
       context.translate(-16, 0);
     }
+
+    if (sprite.invisible) {
+      context.globalAlpha = 0.2;
+    }
+
     context.drawImage(img, sx, sy, swidth, sheight, dx, dy, dwidth, dheight);
+
+    if (sprite.invisible) {
+      context.globalAlpha = 1;
+    }
     context.restore();
   }
 
