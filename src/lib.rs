@@ -16,6 +16,7 @@ enum Behavior {
 
 #[derive(Serialize, Deserialize, PartialEq)]
 enum Attribute {
+    Blocking,
     Consumable,
     Consumed,
     Harmful,
@@ -135,6 +136,20 @@ pub fn run() {
         });
     }
 
+    for i in 0..4 {
+        sprites.push(Sprite {
+            name: "Stone".to_string(),
+            x: 200,
+            y: 100 + 16 * i,
+            rotation: 0,
+            scale: 1.0,
+            idx: 9,
+            behavior: Behavior::Static,
+            attributes: vec![Attribute::Blocking],
+            show_debug: false,
+        });
+    }
+
     let mut rng = rand::thread_rng();
     *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
         while sprites
@@ -190,25 +205,37 @@ pub fn run() {
             .unwrap(),
         );
 
-        for sprite in &mut sprites {
-            if sprite.behavior == Behavior::Controllable {
+        for idx in 0..sprites.len() {
+            if sprites[idx].behavior == Behavior::Controllable {
                 let mut speed = 1;
+
+                let current_x = sprites[idx].x;
+                let current_y = sprites[idx].y;
 
                 if a.contains("16") {
                     speed = 3;
                 }
 
                 if a.contains("65") {
-                    sprite.x -= speed;
+                    sprites[idx].x -= speed;
                 }
                 if a.contains("68") {
-                    sprite.x += speed;
+                    sprites[idx].x += speed;
                 }
                 if a.contains("87") {
-                    sprite.y -= speed;
+                    sprites[idx].y -= speed;
                 }
                 if a.contains("83") {
-                    sprite.y += speed;
+                    sprites[idx].y += speed;
+                }
+
+                for idx2 in 0..sprites.len() {
+                    if sprites[idx2].attributes.contains(&Attribute::Blocking) {
+                        if sprites[idx].collides_with(&sprites[idx2]) {
+                            sprites[idx].x = current_x;
+                            sprites[idx].y = current_y;
+                        }
+                    }
                 }
             }
         }
