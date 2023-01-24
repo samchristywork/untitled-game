@@ -209,6 +209,22 @@ pub fn run() {
 
             if sprites[idx].attributes.contains(&Attribute::Player) {
                 for idx2 in 0..sprites.len() {
+                    if sprites[idx2].attributes.contains(&Attribute::Harmful) {
+                        if sprites[idx].collides_with(&sprites[idx2]) {
+                            current_health -= 1;
+                        }
+                    }
+                }
+
+                for idx2 in 0..sprites.len() {
+                    if sprites[idx2].attributes.contains(&Attribute::Healing) {
+                        if sprites[idx].collides_with(&sprites[idx2]) {
+                            current_health = 100;
+                        }
+                    }
+                }
+
+                for idx2 in 0..sprites.len() {
                     if sprites[idx2].attributes.contains(&Attribute::Consumable) {
                         if sprites[idx].collides_with(&sprites[idx2]) {
                             sprites[idx2].attributes.push(Attribute::Consumed);
