@@ -17,7 +17,7 @@ export function render(s, t) {
   var img = document.getElementById("sprites");
 
   for (let t of text) {
-      context.fillText(t.text, t.x, t.y);
+    context.fillText(t.text, t.x, t.y);
   }
 
   for (let sprite of sprites) {
@@ -36,6 +36,10 @@ export function render(s, t) {
     let dy=0;
     let dwidth=16;
     let dheight=16;
+    if (sprite.flip) {
+      context.scale(-1, 1);
+      context.translate(-16, 0);
+    }
     context.drawImage(img, sx, sy, swidth, sheight, dx, dy, dwidth, dheight);
     context.restore();
   }

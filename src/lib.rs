@@ -72,6 +72,7 @@ struct Sprite {
     behavior: Behavior,
     attributes: Vec<Attribute>,
     show_debug: bool,
+    flip: bool,
 }
 
 fn dist_squared(x1: i32, y1: i32, x2: i32, y2: i32) -> i32 {
@@ -109,6 +110,7 @@ pub fn run() {
             behavior: Behavior::Controllable,
             attributes: vec![Attribute::Player],
             show_debug: true,
+            flip: false,
         },
         Sprite {
             name: "Heart".to_string(),
@@ -120,6 +122,7 @@ pub fn run() {
             behavior: Behavior::Static,
             attributes: vec![Attribute::Healing, Attribute::Consumable],
             show_debug: false,
+            flip: false,
         },
     ];
 
@@ -134,6 +137,7 @@ pub fn run() {
             behavior: Behavior::Static,
             attributes: vec![Attribute::Static],
             show_debug: false,
+            flip: false,
         });
     }
 
@@ -148,6 +152,7 @@ pub fn run() {
             behavior: Behavior::Static,
             attributes: vec![Attribute::Blocking],
             show_debug: false,
+            flip: false,
         });
     }
 
@@ -169,6 +174,7 @@ pub fn run() {
                 behavior: Behavior::Dynamic,
                 attributes: vec![Attribute::Harmful, Attribute::Consumable],
                 show_debug: false,
+                flip: false,
             })
         }
 
@@ -226,9 +232,11 @@ pub fn run() {
 
                 if a.contains("65") {
                     sprites[idx].x -= speed;
+                    sprites[idx].flip = true;
                 }
                 if a.contains("68") {
                     sprites[idx].x += speed;
+                    sprites[idx].flip = false;
                 }
                 if a.contains("87") {
                     sprites[idx].y -= speed;
