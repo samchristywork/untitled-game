@@ -10,6 +10,9 @@ export function render(s, t) {
 
   context.clearRect(0, 0, canvas.width, canvas.height);
 
+  var background = document.getElementById("sand");
+  context.drawImage(background, 0, 0, 400, 400, 0, 0, canvas.width, canvas.height);
+
   var img = document.getElementById("sprites");
 
   for (let t of text) {
