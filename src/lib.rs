@@ -252,7 +252,17 @@ pub fn run() {
 
             // Dynamic
             if sprites[idx].attributes.contains(&Attribute::Dynamic) {
-                sprites[idx].x += 10;
+                let mut speed = 10;
+
+                if sprites[idx].attributes.contains(&Attribute::Hastened) {
+                    speed *= 2;
+                }
+
+                if sprites[idx].attributes.contains(&Attribute::Slowed) {
+                    speed /= 2;
+                }
+
+                sprites[idx].x += speed;
                 for idx2 in 0..sprites.len() {
                     if sprites[idx2].attributes.contains(&Attribute::Blocking) {
                         if sprites[idx].collides_with(&sprites[idx2]) {
@@ -314,6 +324,14 @@ pub fn run() {
 
                 if keyboard_state.contains("16") {
                     speed = 3;
+                }
+
+                if sprites[idx].attributes.contains(&Attribute::Hastened) {
+                    speed *= 2;
+                }
+
+                if sprites[idx].attributes.contains(&Attribute::Slowed) {
+                    speed /= 2;
                 }
 
                 if keyboard_state.contains("65") {
