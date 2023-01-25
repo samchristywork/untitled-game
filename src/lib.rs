@@ -16,10 +16,12 @@ enum Attribute {
     Controllable,
     Dynamic,
     Harmful,
+    Hastened,
     Healing,
     Invisible,
     Moving,
     Player,
+    Slowed,
 }
 
 #[cfg(feature = "wee_alloc")]
@@ -128,10 +130,34 @@ pub fn run() {
             rotation: 0,
             scale: 1.0,
             idx: 10,
-            attributes: vec![Attribute::Moving, Attribute::Harmful],
+            attributes: vec![Attribute::Moving, Attribute::Harmful, Attribute::Invisible],
             show_debug: false,
             flip: false,
-            invisible: true,
+            invisible: false,
+        },
+        Sprite {
+            name: "Snek".to_string(),
+            x: 400,
+            y: 46,
+            rotation: 0,
+            scale: 1.0,
+            idx: 10,
+            attributes: vec![Attribute::Moving, Attribute::Harmful, Attribute::Hastened],
+            show_debug: false,
+            flip: false,
+            invisible: false,
+        },
+        Sprite {
+            name: "Snek".to_string(),
+            x: 400,
+            y: 62,
+            rotation: 0,
+            scale: 1.0,
+            idx: 10,
+            attributes: vec![Attribute::Moving, Attribute::Harmful, Attribute::Slowed],
+            show_debug: false,
+            flip: false,
+            invisible: false,
         },
     ];
 
@@ -194,12 +220,32 @@ pub fn run() {
         }
 
         for idx in 0..sprites.len() {
+            if sprites[idx].attributes.contains(&Attribute::Invisible) {
+                sprites[idx].invisible = true;
+            }
+
             if sprites[idx].attributes.contains(&Attribute::Moving) {
-                if frame % 256 >= 128 {
-                    sprites[idx].x += 1;
+                let mut speed = 1;
+
+                let mut period = 128;
+
+                if sprites[idx].attributes.contains(&Attribute::Hastened) {
+                    speed = 2;
+                    period = 64;
+                }
+
+                if sprites[idx].attributes.contains(&Attribute::Slowed) {
+                    period = 256;
+                    if frame % 2 == 0 {
+                        continue;
+                    }
+                }
+
+                if frame % (period * 2) >= period {
+                    sprites[idx].x += speed;
                     sprites[idx].flip = false;
                 } else {
-                    sprites[idx].x -= 1;
+                    sprites[idx].x -= speed;
                     sprites[idx].flip = true;
                 }
             }
