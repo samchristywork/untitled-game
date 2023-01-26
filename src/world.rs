@@ -1,8 +1,8 @@
 use crate::attribute::Attribute;
 use crate::sprite::Sprite;
 
-pub fn GetSprites() -> Vec<Sprite> {
-    let mut sprites = vec![
+pub fn get_sprites() -> Vec<Sprite> {
+    let sprites = vec![
         Sprite {
             name: "Human".to_string(),
             x: 10,

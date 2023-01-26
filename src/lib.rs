@@ -56,7 +56,7 @@ pub fn run() {
     let f = Rc::new(RefCell::new(None));
     let g = f.clone();
 
-    let mut sprites = world::GetSprites();
+    let mut sprites = world::get_sprites();
 
     for i in 0..12 {
         sprites.push(Sprite {
