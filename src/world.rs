@@ -1,0 +1,81 @@
+use crate::attribute::Attribute;
+use crate::sprite::Sprite;
+
+pub fn GetSprites() -> Vec<Sprite> {
+    let mut sprites = vec![
+        Sprite {
+            name: "Human".to_string(),
+            x: 10,
+            y: 10,
+            rotation: 0,
+            scale: 1.0,
+            idx: 6,
+            attributes: vec![Attribute::Player, Attribute::Controllable],
+            show_debug: true,
+            flip: false,
+            invisible: false,
+        },
+        Sprite {
+            name: "Heart".to_string(),
+            x: 450,
+            y: 275,
+            rotation: 0,
+            scale: 1.0,
+            idx: 7,
+            attributes: vec![Attribute::Healing, Attribute::Consumable],
+            show_debug: false,
+            flip: false,
+            invisible: false,
+        },
+        Sprite {
+            name: "Snek".to_string(),
+            x: 400,
+            y: 30,
+            rotation: 0,
+            scale: 1.0,
+            idx: 10,
+            attributes: vec![Attribute::Moving, Attribute::Harmful, Attribute::Invisible],
+            show_debug: false,
+            flip: false,
+            invisible: false,
+        },
+        Sprite {
+            name: "Snek".to_string(),
+            x: 400,
+            y: 46,
+            rotation: 0,
+            scale: 1.0,
+            idx: 10,
+            attributes: vec![Attribute::Moving, Attribute::Harmful, Attribute::Hastened],
+            show_debug: false,
+            flip: false,
+            invisible: false,
+        },
+        Sprite {
+            name: "Snek".to_string(),
+            x: 400,
+            y: 62,
+            rotation: 0,
+            scale: 1.0,
+            idx: 10,
+            attributes: vec![Attribute::Moving, Attribute::Harmful, Attribute::Slowed],
+            show_debug: false,
+            flip: false,
+            invisible: false,
+        },
+        Sprite {
+            name: "Wand".to_string(),
+            x: 100,
+            y: 50,
+            rotation: 0,
+            scale: 1.0,
+            idx: 11,
+            attributes: vec![Attribute::Consumable],
+            show_debug: false,
+            flip: false,
+            invisible: false,
+        },
+    ];
+
+    sprites
+}
