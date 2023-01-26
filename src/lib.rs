@@ -1,5 +1,10 @@
-mod utils;
+pub mod attribute;
+pub mod sprite;
+pub mod utils;
+pub mod world;
 
+use crate::attribute::Attribute;
+use crate::sprite::Sprite;
 use rand::Rng;
 use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
@@ -7,22 +12,6 @@ use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 
-
-#[derive(Serialize, Deserialize, PartialEq)]
-enum Attribute {
-    Blocking,
-    Consumable,
-    Consumed,
-    Controllable,
-    Dynamic,
-    Harmful,
-    Hastened,
-    Healing,
-    Invisible,
-    Moving,
-    Player,
-    Slowed,
-}
 
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
@@ -60,37 +49,6 @@ struct Text {
     y: i32,
 }
 
-#[derive(Serialize, Deserialize)]
-struct Sprite {
-    name: String,
-    x: i32,
-    y: i32,
-    rotation: i32,
-    scale: f32,
-    idx: u32,
-    attributes: Vec<Attribute>,
-    show_debug: bool,
-    flip: bool,
-    invisible: bool,
-}
-
-fn dist_squared(x1: i32, y1: i32, x2: i32, y2: i32) -> i32 {
-    let dx = x1 - x2;
-    let dy = y1 - y2;
-
-    dx * dx + dy * dy
-}
-
-impl Sprite {
-    fn collides_with(&self, s: &Sprite) -> bool {
-        if dist_squared(self.x, self.y, s.x, s.y) < 100 {
-            true
-        } else {
-            false
-        }
-    }
-}
-
 #[wasm_bindgen(start)]
 pub fn run() {
     let mut current_health = 100;
@@ -98,68 +56,7 @@ pub fn run() {
     let f = Rc::new(RefCell::new(None));
     let g = f.clone();
 
-    let mut sprites = vec![
-        Sprite {
-            name: "Human".to_string(),
-            x: 10,
-            y: 10,
-            rotation: 0,
-            scale: 1.0,
-            idx: 6,
-            attributes: vec![Attribute::Player, Attribute::Controllable],
-            show_debug: true,
-            flip: false,
-            invisible: false,
-        },
-        Sprite {
-            name: "Heart".to_string(),
-            x: 450,
-            y: 275,
-            rotation: 0,
-            scale: 1.0,
-            idx: 7,
-            attributes: vec![Attribute::Healing, Attribute::Consumable],
-            show_debug: false,
-            flip: false,
-            invisible: false,
-        },
-        Sprite {
-            name: "Snek".to_string(),
-            x: 400,
-            y: 30,
-            rotation: 0,
-            scale: 1.0,
-            idx: 10,
-            attributes: vec![Attribute::Moving, Attribute::Harmful, Attribute::Invisible],
-            show_debug: false,
-            flip: false,
-            invisible: false,
-        },
-        Sprite {
-            name: "Snek".to_string(),
-            x: 400,
-            y: 46,
-            rotation: 0,
-            scale: 1.0,
-            idx: 10,
-            attributes: vec![Attribute::Moving, Attribute::Harmful, Attribute::Hastened],
-            show_debug: false,
-            flip: false,
-            invisible: false,
-        },
-        Sprite {
-            name: "Snek".to_string(),
-            x: 400,
-            y: 62,
-            rotation: 0,
-            scale: 1.0,
-            idx: 10,
-            attributes: vec![Attribute::Moving, Attribute::Harmful, Attribute::Slowed],
-            show_debug: false,
-            flip: false,
-            invisible: false,
-        },
-    ];
+    let mut sprites = world::GetSprites();
 
     for i in 0..12 {
         sprites.push(Sprite {
