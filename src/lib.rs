@@ -70,6 +70,7 @@ pub fn run() {
             show_debug: false,
             flip: false,
             invisible: false,
+            size: 16,
         });
     }
 
@@ -85,6 +86,7 @@ pub fn run() {
             show_debug: false,
             flip: false,
             invisible: false,
+            size: 16,
         });
     }
 
@@ -113,6 +115,7 @@ pub fn run() {
                 show_debug: false,
                 flip: false,
                 invisible: false,
+                size: 16,
             })
         }
 

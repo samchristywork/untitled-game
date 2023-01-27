@@ -14,6 +14,7 @@ pub fn get_sprites() -> Vec<Sprite> {
             show_debug: true,
             flip: false,
             invisible: false,
+            size: 16,
         },
         Sprite {
             name: "Heart".to_string(),
@@ -26,6 +27,7 @@ pub fn get_sprites() -> Vec<Sprite> {
             show_debug: false,
             flip: false,
             invisible: false,
+            size: 16,
         },
         Sprite {
             name: "Snek".to_string(),
@@ -38,6 +40,7 @@ pub fn get_sprites() -> Vec<Sprite> {
             show_debug: false,
             flip: false,
             invisible: false,
+            size: 16,
         },
         Sprite {
             name: "Snek".to_string(),
@@ -50,6 +53,7 @@ pub fn get_sprites() -> Vec<Sprite> {
             show_debug: false,
             flip: false,
             invisible: false,
+            size: 16,
         },
         Sprite {
             name: "Snek".to_string(),
@@ -62,6 +66,7 @@ pub fn get_sprites() -> Vec<Sprite> {
             show_debug: false,
             flip: false,
             invisible: false,
+            size: 16,
         },
         Sprite {
             name: "Wand".to_string(),
@@ -74,6 +79,7 @@ pub fn get_sprites() -> Vec<Sprite> {
             show_debug: false,
             flip: false,
             invisible: false,
+            size: 16,
         },
     ];
 
