@@ -30,10 +30,10 @@ export function render(s, t) {
     }
 
     context.rotate(sprite.rotation * Math.PI / 2);
-    let sx=16 * sprite.idx;
-    let sy=0;
     let swidth=16;
     let sheight=16;
+    let sx=16 * (sprite.idx % 32);
+    let sy=16 * Math.floor(sprite.idx / 32);
     let dx=0;
     let dy=0;
     let dwidth=16;

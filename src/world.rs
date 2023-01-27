@@ -81,6 +81,19 @@ pub fn get_sprites() -> Vec<Sprite> {
             invisible: false,
             size: 16,
         },
+        Sprite {
+            name: "A".to_string(),
+            x: 20,
+            y: 10,
+            rotation: 0,
+            scale: 1.0,
+            idx: 32,
+            attributes: vec![],
+            show_debug: false,
+            flip: false,
+            invisible: false,
+            size: 16,
+        },
     ];
 
     sprites
