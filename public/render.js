@@ -30,18 +30,18 @@ export function render(s, t) {
     }
 
     context.rotate(sprite.rotation * Math.PI / 2);
-    let swidth=16;
-    let sheight=16;
     let sx=16 * (sprite.idx % 32);
     let sy=16 * Math.floor(sprite.idx / 32);
+    let swidth=sprite.size;
+    let sheight=sprite.size;
     let dx=0;
     let dy=0;
-    let dwidth=16;
-    let dheight=16;
+    let dwidth=sprite.size;
+    let dheight=sprite.size;
 
     if (sprite.flip) {
       context.scale(-1, 1);
-      context.translate(-16, 0);
+      context.translate(-sprite.size, 0);
     }
 
     if (sprite.invisible) {
