@@ -174,6 +174,17 @@ pub fn run() {
 
             // Player
             if sprites[idx].attributes.contains(&Attribute::Player) {
+                // Stunning
+                for idx2 in 0..sprites.len() {
+                    if sprites[idx2].attributes.contains(&Attribute::Stunning) {
+                        if sprites[idx].collides_with(&sprites[idx2]) {
+                            if !sprites[idx].attributes.contains(&Attribute::Stunned) {
+                                sprites[idx].attributes.push(Attribute::Stunned);
+                            }
+                        }
+                    }
+                }
+
                 // Harm
                 for idx2 in 0..sprites.len() {
                     if sprites[idx2].attributes.contains(&Attribute::Harmful) {

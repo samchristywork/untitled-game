@@ -49,7 +49,12 @@ pub fn get_sprites() -> Vec<Sprite> {
             rotation: 0,
             scale: 1.0,
             idx: 10,
-            attributes: vec![Attribute::Moving, Attribute::Harmful, Attribute::Hastened],
+            attributes: vec![
+                Attribute::Moving,
+                Attribute::Harmful,
+                Attribute::Hastened,
+                Attribute::Stunning,
+            ],
             show_debug: false,
             flip: false,
             invisible: false,

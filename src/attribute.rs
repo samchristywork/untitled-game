@@ -14,4 +14,6 @@ pub enum Attribute {
     Moving,
     Player,
     Slowed,
+    Stunned,
+    Stunning,
 }
