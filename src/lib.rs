@@ -12,7 +12,6 @@ use std::rc::Rc;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 
-
 #[cfg(feature = "wee_alloc")]
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
@@ -52,6 +51,7 @@ struct Text {
 #[wasm_bindgen(start)]
 pub fn run() {
     let mut current_health = 100;
+    let mut statusline: String = String::new();
 
     let f = Rc::new(RefCell::new(None));
     let g = f.clone();
@@ -62,7 +62,7 @@ pub fn run() {
         sprites.push(Sprite {
             name: "TEST".to_string(),
             x: 0 + 16 * i,
-            y: 275,
+            y: 275 - 16,
             rotation: 0,
             scale: 1.0,
             idx: i as u32,
@@ -205,14 +205,22 @@ pub fn run() {
 
         sprites.retain(|e| !e.attributes.contains(&Attribute::Consumed));
 
-        let keyboard_state = render(
-            serde_json::to_string(&sprites).unwrap(),
-            serde_json::to_string(&[Text {
+        let text = [
+            Text {
                 text: format!("Health: {current_health}"),
                 x: 430,
                 y: 16,
-            }])
-            .unwrap(),
+            },
+            Text {
+                text: format!("{statusline}"),
+                x: 0,
+                y: 290,
+            },
+        ];
+
+        let keyboard_state = render(
+            serde_json::to_string(&sprites).unwrap(),
+            serde_json::to_string(&text).unwrap(),
         );
 
         for idx in 0..sprites.len() {
@@ -260,6 +268,8 @@ pub fn run() {
                 }
             }
         }
+
+        statusline = String::new() + keyboard_state.as_str();
 
         if keyboard_state.contains("27") {
             return;
