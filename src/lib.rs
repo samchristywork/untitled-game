@@ -51,7 +51,8 @@ struct Text {
 #[wasm_bindgen(start)]
 pub fn run() {
     let mut current_health = 100;
-    let mut statusline: String = String::new();
+    let mut level_number = 1;
+    let mut statusline = String::new();
 
     let f = Rc::new(RefCell::new(None));
     let g = f.clone();
@@ -71,6 +72,7 @@ pub fn run() {
             flip: false,
             invisible: false,
             size: 16,
+            level_number: 2,
         });
     }
 
@@ -87,6 +89,7 @@ pub fn run() {
             flip: false,
             invisible: false,
             size: 16,
+            level_number: 1,
         });
     }
 
@@ -116,6 +119,7 @@ pub fn run() {
                 flip: false,
                 invisible: false,
                 size: 16,
+                level_number: 1,
             })
         }
 
@@ -230,7 +234,13 @@ pub fn run() {
         ];
 
         let keyboard_state = render(
-            serde_json::to_string(&sprites).unwrap(),
+            serde_json::to_string(
+                &sprites
+                    .iter()
+                    .filter(|e| e.level_number == level_number)
+                    .collect::<Vec<&Sprite>>(),
+            )
+            .unwrap(),
             serde_json::to_string(&text).unwrap(),
         );
 

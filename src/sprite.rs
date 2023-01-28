@@ -14,6 +14,7 @@ pub struct Sprite {
     pub flip: bool,
     pub invisible: bool,
     pub size: u32,
+    pub level_number: u32,
 }
 
 fn dist_squared(x1: i32, y1: i32, x2: i32, y2: i32) -> i32 {
@@ -25,7 +26,7 @@ fn dist_squared(x1: i32, y1: i32, x2: i32, y2: i32) -> i32 {
 
 impl Sprite {
     pub fn collides_with(&self, s: &Sprite) -> bool {
-        if dist_squared(self.x, self.y, s.x, s.y) < 100 {
+        if self.level_number == s.level_number && dist_squared(self.x, self.y, s.x, s.y) < 100 {
             true
         } else {
             false
