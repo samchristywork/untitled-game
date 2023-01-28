@@ -51,7 +51,9 @@ struct Text {
 #[wasm_bindgen(start)]
 pub fn run() {
     let mut current_health = 100;
-    let mut level_number = 1;
+    let mut level_x = 1;
+    let mut level_y = 1;
+    let mut level_z = 1;
     let mut statusline = String::new();
     let mut previous_keyboard_state = String::new();
 
@@ -73,7 +75,9 @@ pub fn run() {
             flip: false,
             invisible: false,
             size: 16,
-            level_number: 2,
+            level_x: 2,
+            level_y: 1,
+            level_z: 1,
         });
     }
 
@@ -90,7 +94,9 @@ pub fn run() {
             flip: false,
             invisible: false,
             size: 16,
-            level_number: 1,
+            level_x: 1,
+            level_y: 1,
+            level_z: 1,
         });
     }
 
@@ -120,7 +126,9 @@ pub fn run() {
                 flip: false,
                 invisible: false,
                 size: 16,
-                level_number: 1,
+                level_x: 1,
+                level_y: 1,
+                level_z: 1,
             })
         }
 
@@ -238,7 +246,9 @@ pub fn run() {
             serde_json::to_string(
                 &sprites
                     .iter()
-                    .filter(|e| e.level_number == level_number)
+                    .filter(|e| {
+                        e.level_x == level_x && e.level_y == level_y && e.level_z == level_z
+                    })
                     .collect::<Vec<&Sprite>>(),
             )
             .unwrap(),
@@ -280,10 +290,10 @@ pub fn run() {
                 }
 
                 if keyboard_state.contains("78") && !previous_keyboard_state.contains("78") {
-                    level_number += 1;
+                    level_x += 1;
                 }
                 if keyboard_state.contains("80") && !previous_keyboard_state.contains("80") {
-                    level_number -= 1;
+                    level_x -= 1;
                 }
 
                 // Blocking

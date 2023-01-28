@@ -15,7 +15,9 @@ pub fn get_sprites() -> Vec<Sprite> {
             flip: false,
             invisible: false,
             size: 16,
-            level_number: 1,
+            level_x: 1,
+            level_y: 1,
+            level_z: 1,
         },
         Sprite {
             name: "Heart".to_string(),
@@ -29,7 +31,9 @@ pub fn get_sprites() -> Vec<Sprite> {
             flip: false,
             invisible: false,
             size: 16,
-            level_number: 1,
+            level_x: 1,
+            level_y: 1,
+            level_z: 1,
         },
         Sprite {
             name: "Snek".to_string(),
@@ -43,7 +47,9 @@ pub fn get_sprites() -> Vec<Sprite> {
             flip: false,
             invisible: false,
             size: 16,
-            level_number: 1,
+            level_x: 1,
+            level_y: 1,
+            level_z: 1,
         },
         Sprite {
             name: "Snek".to_string(),
@@ -62,7 +68,9 @@ pub fn get_sprites() -> Vec<Sprite> {
             flip: false,
             invisible: false,
             size: 16,
-            level_number: 1,
+            level_x: 1,
+            level_y: 1,
+            level_z: 1,
         },
         Sprite {
             name: "Snek".to_string(),
@@ -76,7 +84,9 @@ pub fn get_sprites() -> Vec<Sprite> {
             flip: false,
             invisible: false,
             size: 16,
-            level_number: 1,
+            level_x: 1,
+            level_y: 1,
+            level_z: 1,
         },
         Sprite {
             name: "Wand".to_string(),
@@ -90,7 +100,9 @@ pub fn get_sprites() -> Vec<Sprite> {
             flip: false,
             invisible: false,
             size: 16,
-            level_number: 1,
+            level_x: 1,
+            level_y: 1,
+            level_z: 1,
         },
         Sprite {
             name: "A".to_string(),
@@ -104,7 +116,9 @@ pub fn get_sprites() -> Vec<Sprite> {
             flip: false,
             invisible: false,
             size: 16,
-            level_number: 1,
+            level_x: 1,
+            level_y: 1,
+            level_z: 1,
         },
     ];
 
