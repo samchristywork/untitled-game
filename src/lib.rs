@@ -53,6 +53,7 @@ pub fn run() {
     let mut current_health = 100;
     let mut level_number = 1;
     let mut statusline = String::new();
+    let mut previous_keyboard_state = String::new();
 
     let f = Rc::new(RefCell::new(None));
     let g = f.clone();
@@ -278,6 +279,13 @@ pub fn run() {
                     sprites[idx].y += speed;
                 }
 
+                if keyboard_state.contains("78") && !previous_keyboard_state.contains("78") {
+                    level_number += 1;
+                }
+                if keyboard_state.contains("80") && !previous_keyboard_state.contains("80") {
+                    level_number -= 1;
+                }
+
                 // Blocking
                 for idx2 in 0..sprites.len() {
                     if sprites[idx2].attributes.contains(&Attribute::Blocking) {
@@ -295,6 +303,8 @@ pub fn run() {
         if keyboard_state.contains("27") {
             return;
         }
+
+        previous_keyboard_state = String::new() + keyboard_state.as_str();
 
         sprites.retain(|e| !(e.attributes.contains(&Attribute::Dynamic) && e.x > 500));
 
