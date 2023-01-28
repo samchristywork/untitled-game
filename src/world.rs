@@ -1,4 +1,5 @@
 use crate::attribute::Attribute;
+use crate::attribute::AttributeType;
 use crate::sprite::Sprite;
 
 pub fn get_sprites() -> Vec<Sprite> {
@@ -10,7 +11,14 @@ pub fn get_sprites() -> Vec<Sprite> {
             rotation: 0,
             scale: 1.0,
             idx: 6,
-            attributes: vec![Attribute::Player, Attribute::Controllable],
+            attributes: vec![
+                Attribute {
+                    kind: AttributeType::Player,
+                },
+                Attribute {
+                    kind: AttributeType::Controllable,
+                },
+            ],
             effects: vec![],
             show_debug: true,
             flip: false,
@@ -27,7 +35,14 @@ pub fn get_sprites() -> Vec<Sprite> {
             rotation: 0,
             scale: 1.0,
             idx: 7,
-            attributes: vec![Attribute::Healing, Attribute::Consumable],
+            attributes: vec![
+                Attribute {
+                    kind: AttributeType::Healing,
+                },
+                Attribute {
+                    kind: AttributeType::Consumable,
+                },
+            ],
             effects: vec![],
             show_debug: false,
             flip: false,
@@ -44,7 +59,17 @@ pub fn get_sprites() -> Vec<Sprite> {
             rotation: 0,
             scale: 1.0,
             idx: 10,
-            attributes: vec![Attribute::Moving, Attribute::Harmful, Attribute::Invisible],
+            attributes: vec![
+                Attribute {
+                    kind: AttributeType::Moving,
+                },
+                Attribute {
+                    kind: AttributeType::Harmful,
+                },
+                Attribute {
+                    kind: AttributeType::Invisible,
+                },
+            ],
             effects: vec![],
             show_debug: false,
             flip: false,
@@ -62,10 +87,18 @@ pub fn get_sprites() -> Vec<Sprite> {
             scale: 1.0,
             idx: 10,
             attributes: vec![
-                Attribute::Moving,
-                Attribute::Harmful,
-                Attribute::Hastened,
-                Attribute::Stunning,
+                Attribute {
+                    kind: AttributeType::Moving,
+                },
+                Attribute {
+                    kind: AttributeType::Harmful,
+                },
+                Attribute {
+                    kind: AttributeType::Hastened,
+                },
+                Attribute {
+                    kind: AttributeType::Stunning,
+                },
             ],
             effects: vec![],
             show_debug: false,
@@ -83,7 +116,17 @@ pub fn get_sprites() -> Vec<Sprite> {
             rotation: 0,
             scale: 1.0,
             idx: 10,
-            attributes: vec![Attribute::Moving, Attribute::Harmful, Attribute::Slowed],
+            attributes: vec![
+                Attribute {
+                    kind: AttributeType::Moving,
+                },
+                Attribute {
+                    kind: AttributeType::Harmful,
+                },
+                Attribute {
+                    kind: AttributeType::Slowed,
+                },
+            ],
             effects: vec![],
             show_debug: false,
             flip: false,
@@ -100,7 +143,9 @@ pub fn get_sprites() -> Vec<Sprite> {
             rotation: 0,
             scale: 1.0,
             idx: 11,
-            attributes: vec![Attribute::Consumable],
+            attributes: vec![Attribute {
+                kind: AttributeType::Consumable,
+            }],
             effects: vec![],
             show_debug: false,
             flip: false,
@@ -134,7 +179,9 @@ pub fn get_sprites() -> Vec<Sprite> {
             rotation: 0,
             scale: 1.0,
             idx: 0,
-            attributes: vec![Attribute::ArrowSource],
+            attributes: vec![Attribute {
+                kind: AttributeType::ArrowSource,
+            }],
             effects: vec![],
             show_debug: false,
             flip: false,

@@ -1,7 +1,12 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, PartialEq)]
-pub enum Attribute {
+pub struct Attribute {
+    pub kind: AttributeType,
+}
+
+#[derive(Serialize, Deserialize, PartialEq)]
+pub enum AttributeType {
     ArrowSource,
     Blocking,
     Consumable,

@@ -4,6 +4,7 @@ pub mod utils;
 pub mod world;
 
 use crate::attribute::Attribute;
+use crate::attribute::AttributeType;
 use crate::sprite::Sprite;
 use rand::Rng;
 use serde::{Deserialize, Serialize};
@@ -90,7 +91,9 @@ pub fn run() {
             rotation: 0,
             scale: 1.0,
             idx: 9,
-            attributes: vec![Attribute::Blocking],
+            attributes: vec![Attribute {
+                kind: AttributeType::Blocking,
+            }],
             effects: vec![],
             show_debug: false,
             flip: false,
@@ -107,10 +110,18 @@ pub fn run() {
 
     *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
         for idx in 0..sprites.len() {
-            if sprites[idx].attributes.contains(&Attribute::ArrowSource) {
+            if sprites[idx]
+                .attributes
+                .iter()
+                .any(|e| e.kind == AttributeType::ArrowSource)
+            {
                 while sprites
                     .iter()
-                    .filter(|e| e.attributes.contains(&Attribute::Dynamic))
+                    .filter(|e| {
+                        e.attributes
+                            .iter()
+                            .any(|e| e.kind == AttributeType::Dynamic)
+                    })
                     .count()
                     < 10
                 {
@@ -122,9 +133,15 @@ pub fn run() {
                         scale: 1.0,
                         idx: 1,
                         attributes: vec![
-                            Attribute::Harmful,
-                            Attribute::Consumable,
-                            Attribute::Dynamic,
+                            Attribute {
+                                kind: AttributeType::Harmful,
+                            },
+                            Attribute {
+                                kind: AttributeType::Consumable,
+                            },
+                            Attribute {
+                                kind: AttributeType::Dynamic,
+                            },
                         ],
                         effects: vec![],
                         show_debug: false,
@@ -144,21 +161,37 @@ pub fn run() {
 
             sprites[idx].effects.retain(|e| e.1 > 0);
 
-            if sprites[idx].attributes.contains(&Attribute::Invisible) {
+            if sprites[idx]
+                .attributes
+                .iter()
+                .any(|e| e.kind == AttributeType::Invisible)
+            {
                 sprites[idx].invisible = true;
             }
 
-            if sprites[idx].attributes.contains(&Attribute::Moving) {
+            if sprites[idx]
+                .attributes
+                .iter()
+                .any(|e| e.kind == AttributeType::Moving)
+            {
                 let mut speed = 1;
 
                 let mut period = 128;
 
-                if sprites[idx].attributes.contains(&Attribute::Hastened) {
+                if sprites[idx]
+                    .attributes
+                    .iter()
+                    .any(|e| e.kind == AttributeType::Hastened)
+                {
                     speed = 2;
                     period = 64;
                 }
 
-                if sprites[idx].attributes.contains(&Attribute::Slowed) {
+                if sprites[idx]
+                    .attributes
+                    .iter()
+                    .any(|e| e.kind == AttributeType::Slowed)
+                {
                     period = 256;
                     if frame % 2 == 0 {
                         continue;
@@ -175,39 +208,70 @@ pub fn run() {
             }
 
             // Dynamic
-            if sprites[idx].attributes.contains(&Attribute::Dynamic) {
+            if sprites[idx]
+                .attributes
+                .iter()
+                .any(|e| e.kind == AttributeType::Dynamic)
+            {
                 let mut speed = 10;
 
-                if sprites[idx].attributes.contains(&Attribute::Hastened) {
+                if sprites[idx]
+                    .attributes
+                    .iter()
+                    .any(|e| e.kind == AttributeType::Hastened)
+                {
                     speed *= 2;
                 }
 
-                if sprites[idx].attributes.contains(&Attribute::Slowed) {
+                if sprites[idx]
+                    .attributes
+                    .iter()
+                    .any(|e| e.kind == AttributeType::Slowed)
+                {
                     speed /= 2;
                 }
 
                 sprites[idx].x += speed;
                 for idx2 in 0..sprites.len() {
-                    if sprites[idx2].attributes.contains(&Attribute::Blocking) {
+                    if sprites[idx2]
+                        .attributes
+                        .iter()
+                        .any(|e| e.kind == AttributeType::Blocking)
+                    {
                         if sprites[idx].collides_with(&sprites[idx2]) {
-                            sprites[idx].attributes.push(Attribute::Consumed);
+                            sprites[idx].attributes.push(Attribute {
+                                kind: AttributeType::Consumed,
+                            });
                         }
                     }
                 }
             }
 
             // Player
-            if sprites[idx].attributes.contains(&Attribute::Player) {
+            if sprites[idx]
+                .attributes
+                .iter()
+                .any(|e| e.kind == AttributeType::Player)
+            {
                 // Stunning
                 for idx2 in 0..sprites.len() {
-                    if sprites[idx2].attributes.contains(&Attribute::Stunning) {
+                    if sprites[idx2]
+                        .attributes
+                        .iter()
+                        .any(|e| e.kind == AttributeType::Stunning)
+                    {
                         if sprites[idx].collides_with(&sprites[idx2]) {
                             if !sprites[idx]
                                 .effects
                                 .iter()
-                                .any(|e| e.0 == Attribute::Stunned)
+                                .any(|e| e.0.kind == AttributeType::Stunned)
                             {
-                                sprites[idx].effects.push((Attribute::Stunned, 50));
+                                sprites[idx].effects.push((
+                                    Attribute {
+                                        kind: AttributeType::Stunned,
+                                    },
+                                    50,
+                                ));
                             }
                         }
                     }
@@ -215,7 +279,11 @@ pub fn run() {
 
                 // Harm
                 for idx2 in 0..sprites.len() {
-                    if sprites[idx2].attributes.contains(&Attribute::Harmful) {
+                    if sprites[idx2]
+                        .attributes
+                        .iter()
+                        .any(|e| e.kind == AttributeType::Harmful)
+                    {
                         if sprites[idx].collides_with(&sprites[idx2]) {
                             current_health -= 1;
                         }
@@ -224,7 +292,11 @@ pub fn run() {
 
                 // Healing
                 for idx2 in 0..sprites.len() {
-                    if sprites[idx2].attributes.contains(&Attribute::Healing) {
+                    if sprites[idx2]
+                        .attributes
+                        .iter()
+                        .any(|e| e.kind == AttributeType::Healing)
+                    {
                         if sprites[idx].collides_with(&sprites[idx2]) {
                             current_health = 100;
                         }
@@ -233,16 +305,26 @@ pub fn run() {
 
                 // Consuming
                 for idx2 in 0..sprites.len() {
-                    if sprites[idx2].attributes.contains(&Attribute::Consumable) {
+                    if sprites[idx2]
+                        .attributes
+                        .iter()
+                        .any(|e| e.kind == AttributeType::Consumable)
+                    {
                         if sprites[idx].collides_with(&sprites[idx2]) {
-                            sprites[idx2].attributes.push(Attribute::Consumed);
+                            sprites[idx2].attributes.push(Attribute {
+                                kind: AttributeType::Consumed,
+                            });
                         }
                     }
                 }
             }
         }
 
-        sprites.retain(|e| !e.attributes.contains(&Attribute::Consumed));
+        sprites.retain(|e| {
+            !e.attributes
+                .iter()
+                .any(|e| e.kind == AttributeType::Consumed)
+        });
 
         let text = [
             Text {
@@ -276,7 +358,11 @@ pub fn run() {
         );
 
         for idx in 0..sprites.len() {
-            if sprites[idx].attributes.contains(&Attribute::Controllable) {
+            if sprites[idx]
+                .attributes
+                .iter()
+                .any(|e| e.kind == AttributeType::Controllable)
+            {
                 let mut speed = 1;
 
                 let current_x = sprites[idx].x;
@@ -286,18 +372,26 @@ pub fn run() {
                     speed = 3;
                 }
 
-                if sprites[idx].attributes.contains(&Attribute::Hastened) {
+                if sprites[idx]
+                    .attributes
+                    .iter()
+                    .any(|e| e.kind == AttributeType::Hastened)
+                {
                     speed *= 2;
                 }
 
-                if sprites[idx].attributes.contains(&Attribute::Slowed) {
+                if sprites[idx]
+                    .attributes
+                    .iter()
+                    .any(|e| e.kind == AttributeType::Slowed)
+                {
                     speed /= 2;
                 }
 
                 if sprites[idx]
                     .effects
                     .iter()
-                    .any(|e| e.0 == Attribute::Stunned)
+                    .any(|e| e.0.kind == AttributeType::Stunned)
                 {
                     speed = 0;
                 }
@@ -352,7 +446,11 @@ pub fn run() {
 
                 // Blocking
                 for idx2 in 0..sprites.len() {
-                    if sprites[idx2].attributes.contains(&Attribute::Blocking) {
+                    if sprites[idx2]
+                        .attributes
+                        .iter()
+                        .any(|e| e.kind == AttributeType::Blocking)
+                    {
                         if sprites[idx].collides_with(&sprites[idx2]) {
                             sprites[idx].x = current_x;
                             sprites[idx].y = current_y;
@@ -370,7 +468,12 @@ pub fn run() {
 
         previous_keyboard_state = String::new() + keyboard_state.as_str();
 
-        sprites.retain(|e| !(e.attributes.contains(&Attribute::Dynamic) && e.x > 500));
+        sprites.retain(|e| {
+            !(e.attributes
+                .iter()
+                .any(|e| e.kind == AttributeType::Dynamic)
+                && e.x > 500)
+        });
 
         frame += 1;
 
