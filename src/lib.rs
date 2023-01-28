@@ -49,6 +49,43 @@ struct Text {
     y: i32,
 }
 
+#[derive(Serialize, Deserialize)]
+struct Sprite {
+    name: String,
+    x: i32,
+    y: i32,
+    rotation: i32,
+    scale: f32,
+    idx: u32,
+    show_debug: bool,
+    flip: bool,
+    invisible: bool,
+    size: u32,
+    level_x: i32,
+    level_y: i32,
+    level_z: i32,
+}
+
+impl Sprite {
+    fn new_from_entity(e: &Entity) -> Self {
+        Self {
+            name: format!("{}", e.name),
+            x: e.x,
+            y: e.y,
+            rotation: e.rotation,
+            scale: e.scale,
+            idx: e.idx,
+            show_debug: e.show_debug,
+            flip: e.flip,
+            invisible: e.invisible,
+            size: e.size,
+            level_x: e.level_x,
+            level_y: e.level_y,
+            level_z: e.level_z,
+        }
+    }
+}
+
 #[wasm_bindgen(start)]
 pub fn run() {
     let mut current_health = 100;
@@ -351,7 +388,10 @@ pub fn run() {
                     .filter(|e| {
                         e.level_x == level_x && e.level_y == level_y && e.level_z == level_z
                     })
-                    .collect::<Vec<&Entity>>(),
+                    .collect::<Vec<&Entity>>()
+                    .iter()
+                    .map(|e| Sprite::new_from_entity(e))
+                    .collect::<Vec<Sprite>>(),
             )
             .unwrap(),
             serde_json::to_string(&text).unwrap(),
