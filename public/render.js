@@ -25,7 +25,7 @@ export function render(s, t) {
     context.translate(sprite.x, sprite.y);
     context.scale(sprite.scale, sprite.scale);
 
-    if (sprite.show_debug){
+    if (sprite.show_debug && debug.innerHTML.includes("76")){
       context.fillText(JSON.stringify(sprite), 0, 0);
     }
 
