@@ -289,6 +289,32 @@ pub fn run() {
                     sprites[idx].y += speed;
                 }
 
+                if sprites[idx].level_x == level_x
+                    && sprites[idx].level_y == level_y
+                    && sprites[idx].level_z == level_z
+                {
+                    if sprites[idx].y > 300 {
+                        sprites[idx].y = 0;
+                        level_y += 1;
+                    }
+                    if sprites[idx].y < 0 {
+                        sprites[idx].y = 300;
+                        level_y -= 1;
+                    }
+                    if sprites[idx].x > 500 {
+                        sprites[idx].x = 0;
+                        level_x += 1;
+                    }
+                    if sprites[idx].x < 0 {
+                        sprites[idx].x = 500;
+                        level_x -= 1;
+                    }
+
+                    sprites[idx].level_x = level_x;
+                    sprites[idx].level_y = level_y;
+                    sprites[idx].level_z = level_z;
+                }
+
                 if keyboard_state.contains("78") && !previous_keyboard_state.contains("78") {
                     level_x += 1;
                 }
