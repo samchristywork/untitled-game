@@ -127,6 +127,23 @@ pub fn get_sprites() -> Vec<Sprite> {
             level_y: 0,
             level_z: 0,
         },
+        Sprite {
+            name: "Arrow Source".to_string(),
+            x: -100,
+            y: 150,
+            rotation: 0,
+            scale: 1.0,
+            idx: 0,
+            attributes: vec![Attribute::ArrowSource],
+            effects: vec![],
+            show_debug: false,
+            flip: false,
+            invisible: false,
+            size: 16,
+            level_x: 0,
+            level_y: 0,
+            level_z: 0,
+        },
     ];
 
     sprites

@@ -106,36 +106,38 @@ pub fn run() {
     let mut frame = 0;
 
     *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
-        while sprites
-            .iter()
-            .filter(|e| e.attributes.contains(&Attribute::Dynamic))
-            .count()
-            < 10
-        {
-            sprites.push(Sprite {
-                name: "Arrow".to_string(),
-                x: rng.gen_range(-100..100) - 100,
-                y: rng.gen_range(-33..33) + 150,
-                rotation: 1,
-                scale: 1.0,
-                idx: 1,
-                attributes: vec![
-                    Attribute::Harmful,
-                    Attribute::Consumable,
-                    Attribute::Dynamic,
-                ],
-                effects: vec![],
-                show_debug: false,
-                flip: false,
-                invisible: false,
-                size: 16,
-                level_x: 0,
-                level_y: 0,
-                level_z: 0,
-            })
-        }
-
         for idx in 0..sprites.len() {
+            if sprites[idx].attributes.contains(&Attribute::ArrowSource) {
+                while sprites
+                    .iter()
+                    .filter(|e| e.attributes.contains(&Attribute::Dynamic))
+                    .count()
+                    < 10
+                {
+                    sprites.push(Sprite {
+                        name: "Arrow".to_string(),
+                        x: rng.gen_range(-100..100) + sprites[idx].x,
+                        y: rng.gen_range(-33..33) + sprites[idx].y,
+                        rotation: 1,
+                        scale: 1.0,
+                        idx: 1,
+                        attributes: vec![
+                            Attribute::Harmful,
+                            Attribute::Consumable,
+                            Attribute::Dynamic,
+                        ],
+                        effects: vec![],
+                        show_debug: false,
+                        flip: false,
+                        invisible: false,
+                        size: 16,
+                        level_x: 0,
+                        level_y: 0,
+                        level_z: 0,
+                    })
+                }
+            }
+
             for idx2 in 0..sprites[idx].effects.len() {
                 sprites[idx].effects[idx2].1 -= 1;
             }

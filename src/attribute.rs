@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, PartialEq)]
 pub enum Attribute {
+    ArrowSource,
     Blocking,
     Consumable,
     Consumed,
