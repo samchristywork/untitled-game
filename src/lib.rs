@@ -1,11 +1,11 @@
 pub mod attribute;
-pub mod sprite;
+pub mod entity;
 pub mod utils;
 pub mod world;
 
 use crate::attribute::Attribute;
 use crate::attribute::AttributeType;
-use crate::sprite::Sprite;
+use crate::entity::Entity;
 use rand::Rng;
 use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
@@ -61,10 +61,10 @@ pub fn run() {
     let f = Rc::new(RefCell::new(None));
     let g = f.clone();
 
-    let mut sprites = world::get_sprites();
+    let mut entities = world::get_sprites();
 
     for i in 0..12 {
-        sprites.push(Sprite {
+        entities.push(Entity {
             name: "TEST".to_string(),
             x: 0 + 16 * i,
             y: 275 - 16,
@@ -84,7 +84,7 @@ pub fn run() {
     }
 
     for i in 0..4 {
-        sprites.push(Sprite {
+        entities.push(Entity {
             name: "Stone".to_string(),
             x: 200,
             y: 100 + 16 * i,
@@ -109,13 +109,13 @@ pub fn run() {
     let mut frame = 0;
 
     *g.borrow_mut() = Some(Closure::wrap(Box::new(move || {
-        for idx in 0..sprites.len() {
-            if sprites[idx]
+        for idx in 0..entities.len() {
+            if entities[idx]
                 .attributes
                 .iter()
                 .any(|e| e.kind == AttributeType::ArrowSource)
             {
-                while sprites
+                while entities
                     .iter()
                     .filter(|e| {
                         e.attributes
@@ -125,10 +125,10 @@ pub fn run() {
                     .count()
                     < 10
                 {
-                    sprites.push(Sprite {
+                    entities.push(Entity {
                         name: "Arrow".to_string(),
-                        x: rng.gen_range(-100..100) + sprites[idx].x,
-                        y: rng.gen_range(-33..33) + sprites[idx].y,
+                        x: rng.gen_range(-100..100) + entities[idx].x,
+                        y: rng.gen_range(-33..33) + entities[idx].y,
                         rotation: 1,
                         scale: 1.0,
                         idx: 1,
@@ -155,21 +155,21 @@ pub fn run() {
                 }
             }
 
-            for idx2 in 0..sprites[idx].effects.len() {
-                sprites[idx].effects[idx2].1 -= 1;
+            for idx2 in 0..entities[idx].effects.len() {
+                entities[idx].effects[idx2].1 -= 1;
             }
 
-            sprites[idx].effects.retain(|e| e.1 > 0);
+            entities[idx].effects.retain(|e| e.1 > 0);
 
-            if sprites[idx]
+            if entities[idx]
                 .attributes
                 .iter()
                 .any(|e| e.kind == AttributeType::Invisible)
             {
-                sprites[idx].invisible = true;
+                entities[idx].invisible = true;
             }
 
-            if sprites[idx]
+            if entities[idx]
                 .attributes
                 .iter()
                 .any(|e| e.kind == AttributeType::Moving)
@@ -178,7 +178,7 @@ pub fn run() {
 
                 let mut period = 128;
 
-                if sprites[idx]
+                if entities[idx]
                     .attributes
                     .iter()
                     .any(|e| e.kind == AttributeType::Hastened)
@@ -187,7 +187,7 @@ pub fn run() {
                     period = 64;
                 }
 
-                if sprites[idx]
+                if entities[idx]
                     .attributes
                     .iter()
                     .any(|e| e.kind == AttributeType::Slowed)
@@ -199,23 +199,23 @@ pub fn run() {
                 }
 
                 if frame % (period * 2) >= period {
-                    sprites[idx].x += speed;
-                    sprites[idx].flip = false;
+                    entities[idx].x += speed;
+                    entities[idx].flip = false;
                 } else {
-                    sprites[idx].x -= speed;
-                    sprites[idx].flip = true;
+                    entities[idx].x -= speed;
+                    entities[idx].flip = true;
                 }
             }
 
             // Dynamic
-            if sprites[idx]
+            if entities[idx]
                 .attributes
                 .iter()
                 .any(|e| e.kind == AttributeType::Dynamic)
             {
                 let mut speed = 10;
 
-                if sprites[idx]
+                if entities[idx]
                     .attributes
                     .iter()
                     .any(|e| e.kind == AttributeType::Hastened)
@@ -223,7 +223,7 @@ pub fn run() {
                     speed *= 2;
                 }
 
-                if sprites[idx]
+                if entities[idx]
                     .attributes
                     .iter()
                     .any(|e| e.kind == AttributeType::Slowed)
@@ -231,15 +231,15 @@ pub fn run() {
                     speed /= 2;
                 }
 
-                sprites[idx].x += speed;
-                for idx2 in 0..sprites.len() {
-                    if sprites[idx2]
+                entities[idx].x += speed;
+                for idx2 in 0..entities.len() {
+                    if entities[idx2]
                         .attributes
                         .iter()
                         .any(|e| e.kind == AttributeType::Blocking)
                     {
-                        if sprites[idx].collides_with(&sprites[idx2]) {
-                            sprites[idx].attributes.push(Attribute {
+                        if entities[idx].collides_with(&entities[idx2]) {
+                            entities[idx].attributes.push(Attribute {
                                 kind: AttributeType::Consumed,
                             });
                         }
@@ -248,25 +248,25 @@ pub fn run() {
             }
 
             // Player
-            if sprites[idx]
+            if entities[idx]
                 .attributes
                 .iter()
                 .any(|e| e.kind == AttributeType::Player)
             {
                 // Stunning
-                for idx2 in 0..sprites.len() {
-                    if sprites[idx2]
+                for idx2 in 0..entities.len() {
+                    if entities[idx2]
                         .attributes
                         .iter()
                         .any(|e| e.kind == AttributeType::Stunning)
                     {
-                        if sprites[idx].collides_with(&sprites[idx2]) {
-                            if !sprites[idx]
+                        if entities[idx].collides_with(&entities[idx2]) {
+                            if !entities[idx]
                                 .effects
                                 .iter()
                                 .any(|e| e.0.kind == AttributeType::Stunned)
                             {
-                                sprites[idx].effects.push((
+                                entities[idx].effects.push((
                                     Attribute {
                                         kind: AttributeType::Stunned,
                                     },
@@ -278,40 +278,40 @@ pub fn run() {
                 }
 
                 // Harm
-                for idx2 in 0..sprites.len() {
-                    if sprites[idx2]
+                for idx2 in 0..entities.len() {
+                    if entities[idx2]
                         .attributes
                         .iter()
                         .any(|e| e.kind == AttributeType::Harmful)
                     {
-                        if sprites[idx].collides_with(&sprites[idx2]) {
+                        if entities[idx].collides_with(&entities[idx2]) {
                             current_health -= 1;
                         }
                     }
                 }
 
                 // Healing
-                for idx2 in 0..sprites.len() {
-                    if sprites[idx2]
+                for idx2 in 0..entities.len() {
+                    if entities[idx2]
                         .attributes
                         .iter()
                         .any(|e| e.kind == AttributeType::Healing)
                     {
-                        if sprites[idx].collides_with(&sprites[idx2]) {
+                        if entities[idx].collides_with(&entities[idx2]) {
                             current_health = 100;
                         }
                     }
                 }
 
                 // Consuming
-                for idx2 in 0..sprites.len() {
-                    if sprites[idx2]
+                for idx2 in 0..entities.len() {
+                    if entities[idx2]
                         .attributes
                         .iter()
                         .any(|e| e.kind == AttributeType::Consumable)
                     {
-                        if sprites[idx].collides_with(&sprites[idx2]) {
-                            sprites[idx2].attributes.push(Attribute {
+                        if entities[idx].collides_with(&entities[idx2]) {
+                            entities[idx2].attributes.push(Attribute {
                                 kind: AttributeType::Consumed,
                             });
                         }
@@ -320,7 +320,7 @@ pub fn run() {
             }
         }
 
-        sprites.retain(|e| {
+        entities.retain(|e| {
             !e.attributes
                 .iter()
                 .any(|e| e.kind == AttributeType::Consumed)
@@ -346,33 +346,33 @@ pub fn run() {
 
         let keyboard_state = render(
             serde_json::to_string(
-                &sprites
+                &entities
                     .iter()
                     .filter(|e| {
                         e.level_x == level_x && e.level_y == level_y && e.level_z == level_z
                     })
-                    .collect::<Vec<&Sprite>>(),
+                    .collect::<Vec<&Entity>>(),
             )
             .unwrap(),
             serde_json::to_string(&text).unwrap(),
         );
 
-        for idx in 0..sprites.len() {
-            if sprites[idx]
+        for idx in 0..entities.len() {
+            if entities[idx]
                 .attributes
                 .iter()
                 .any(|e| e.kind == AttributeType::Controllable)
             {
                 let mut speed = 1;
 
-                let current_x = sprites[idx].x;
-                let current_y = sprites[idx].y;
+                let current_x = entities[idx].x;
+                let current_y = entities[idx].y;
 
                 if keyboard_state.contains("16") {
                     speed = 3;
                 }
 
-                if sprites[idx]
+                if entities[idx]
                     .attributes
                     .iter()
                     .any(|e| e.kind == AttributeType::Hastened)
@@ -380,7 +380,7 @@ pub fn run() {
                     speed *= 2;
                 }
 
-                if sprites[idx]
+                if entities[idx]
                     .attributes
                     .iter()
                     .any(|e| e.kind == AttributeType::Slowed)
@@ -388,7 +388,7 @@ pub fn run() {
                     speed /= 2;
                 }
 
-                if sprites[idx]
+                if entities[idx]
                     .effects
                     .iter()
                     .any(|e| e.0.kind == AttributeType::Stunned)
@@ -397,44 +397,44 @@ pub fn run() {
                 }
 
                 if keyboard_state.contains("65") {
-                    sprites[idx].x -= speed;
-                    sprites[idx].flip = true;
+                    entities[idx].x -= speed;
+                    entities[idx].flip = true;
                 }
                 if keyboard_state.contains("68") {
-                    sprites[idx].x += speed;
-                    sprites[idx].flip = false;
+                    entities[idx].x += speed;
+                    entities[idx].flip = false;
                 }
                 if keyboard_state.contains("87") {
-                    sprites[idx].y -= speed;
+                    entities[idx].y -= speed;
                 }
                 if keyboard_state.contains("83") {
-                    sprites[idx].y += speed;
+                    entities[idx].y += speed;
                 }
 
-                if sprites[idx].level_x == level_x
-                    && sprites[idx].level_y == level_y
-                    && sprites[idx].level_z == level_z
+                if entities[idx].level_x == level_x
+                    && entities[idx].level_y == level_y
+                    && entities[idx].level_z == level_z
                 {
-                    if sprites[idx].y > 300 {
-                        sprites[idx].y = 0;
+                    if entities[idx].y > 300 {
+                        entities[idx].y = 0;
                         level_y += 1;
                     }
-                    if sprites[idx].y < 0 {
-                        sprites[idx].y = 300;
+                    if entities[idx].y < 0 {
+                        entities[idx].y = 300;
                         level_y -= 1;
                     }
-                    if sprites[idx].x > 500 {
-                        sprites[idx].x = 0;
+                    if entities[idx].x > 500 {
+                        entities[idx].x = 0;
                         level_x += 1;
                     }
-                    if sprites[idx].x < 0 {
-                        sprites[idx].x = 500;
+                    if entities[idx].x < 0 {
+                        entities[idx].x = 500;
                         level_x -= 1;
                     }
 
-                    sprites[idx].level_x = level_x;
-                    sprites[idx].level_y = level_y;
-                    sprites[idx].level_z = level_z;
+                    entities[idx].level_x = level_x;
+                    entities[idx].level_y = level_y;
+                    entities[idx].level_z = level_z;
                 }
 
                 if keyboard_state.contains("78") && !previous_keyboard_state.contains("78") {
@@ -445,15 +445,15 @@ pub fn run() {
                 }
 
                 // Blocking
-                for idx2 in 0..sprites.len() {
-                    if sprites[idx2]
+                for idx2 in 0..entities.len() {
+                    if entities[idx2]
                         .attributes
                         .iter()
                         .any(|e| e.kind == AttributeType::Blocking)
                     {
-                        if sprites[idx].collides_with(&sprites[idx2]) {
-                            sprites[idx].x = current_x;
-                            sprites[idx].y = current_y;
+                        if entities[idx].collides_with(&entities[idx2]) {
+                            entities[idx].x = current_x;
+                            entities[idx].y = current_y;
                         }
                     }
                 }
@@ -468,7 +468,7 @@ pub fn run() {
 
         previous_keyboard_state = String::new() + keyboard_state.as_str();
 
-        sprites.retain(|e| {
+        entities.retain(|e| {
             !(e.attributes
                 .iter()
                 .any(|e| e.kind == AttributeType::Dynamic)

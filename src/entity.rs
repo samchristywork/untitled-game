@@ -2,7 +2,7 @@ use crate::attribute::Attribute;
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize)]
-pub struct Sprite {
+pub struct Entity {
     pub name: String,
     pub x: i32,
     pub y: i32,
@@ -27,8 +27,8 @@ fn dist_squared(x1: i32, y1: i32, x2: i32, y2: i32) -> i32 {
     dx * dx + dy * dy
 }
 
-impl Sprite {
-    pub fn level_matches(&self, s: &Sprite) -> bool {
+impl Entity {
+    pub fn level_matches(&self, s: &Entity) -> bool {
         if self.level_x == s.level_x && self.level_y == s.level_y && self.level_z == s.level_z {
             true
         } else {
@@ -36,7 +36,7 @@ impl Sprite {
         }
     }
 
-    pub fn collides_with(&self, s: &Sprite) -> bool {
+    pub fn collides_with(&self, s: &Entity) -> bool {
         if self.level_matches(s) && dist_squared(self.x, self.y, s.x, s.y) < 100 {
             true
         } else {

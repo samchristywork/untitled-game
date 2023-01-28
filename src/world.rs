@@ -1,10 +1,10 @@
 use crate::attribute::Attribute;
 use crate::attribute::AttributeType;
-use crate::sprite::Sprite;
+use crate::entity::Entity;
 
-pub fn get_sprites() -> Vec<Sprite> {
-    let sprites = vec![
-        Sprite {
+pub fn get_sprites() -> Vec<Entity> {
+    let entities = vec![
+        Entity {
             name: "Human".to_string(),
             x: 10,
             y: 10,
@@ -28,7 +28,7 @@ pub fn get_sprites() -> Vec<Sprite> {
             level_y: 0,
             level_z: 0,
         },
-        Sprite {
+        Entity {
             name: "Heart".to_string(),
             x: 450,
             y: 275,
@@ -52,7 +52,7 @@ pub fn get_sprites() -> Vec<Sprite> {
             level_y: 0,
             level_z: 0,
         },
-        Sprite {
+        Entity {
             name: "Snek".to_string(),
             x: 400,
             y: 30,
@@ -79,7 +79,7 @@ pub fn get_sprites() -> Vec<Sprite> {
             level_y: 0,
             level_z: 0,
         },
-        Sprite {
+        Entity {
             name: "Snek".to_string(),
             x: 400,
             y: 46,
@@ -109,7 +109,7 @@ pub fn get_sprites() -> Vec<Sprite> {
             level_y: 0,
             level_z: 0,
         },
-        Sprite {
+        Entity {
             name: "Snek".to_string(),
             x: 400,
             y: 62,
@@ -136,7 +136,7 @@ pub fn get_sprites() -> Vec<Sprite> {
             level_y: 0,
             level_z: 0,
         },
-        Sprite {
+        Entity {
             name: "Wand".to_string(),
             x: 100,
             y: 50,
@@ -155,7 +155,7 @@ pub fn get_sprites() -> Vec<Sprite> {
             level_y: 0,
             level_z: 0,
         },
-        Sprite {
+        Entity {
             name: "A".to_string(),
             x: 20,
             y: 10,
@@ -172,7 +172,7 @@ pub fn get_sprites() -> Vec<Sprite> {
             level_y: 0,
             level_z: 0,
         },
-        Sprite {
+        Entity {
             name: "Arrow Source".to_string(),
             x: -100,
             y: 150,
@@ -193,5 +193,5 @@ pub fn get_sprites() -> Vec<Sprite> {
         },
     ];
 
-    sprites
+    entities
 }
