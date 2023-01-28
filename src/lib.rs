@@ -51,9 +51,9 @@ struct Text {
 #[wasm_bindgen(start)]
 pub fn run() {
     let mut current_health = 100;
-    let mut level_x = 1;
-    let mut level_y = 1;
-    let mut level_z = 1;
+    let mut level_x = 0;
+    let mut level_y = 0;
+    let mut level_z = 0;
     let mut statusline = String::new();
     let mut previous_keyboard_state = String::new();
 
@@ -75,9 +75,9 @@ pub fn run() {
             flip: false,
             invisible: false,
             size: 16,
-            level_x: 2,
-            level_y: 1,
-            level_z: 1,
+            level_x: 1,
+            level_y: 0,
+            level_z: 0,
         });
     }
 
@@ -94,9 +94,9 @@ pub fn run() {
             flip: false,
             invisible: false,
             size: 16,
-            level_x: 1,
-            level_y: 1,
-            level_z: 1,
+            level_x: 0,
+            level_y: 0,
+            level_z: 0,
         });
     }
 
@@ -126,9 +126,9 @@ pub fn run() {
                 flip: false,
                 invisible: false,
                 size: 16,
-                level_x: 1,
-                level_y: 1,
-                level_z: 1,
+                level_x: 0,
+                level_y: 0,
+                level_z: 0,
             })
         }
 
@@ -234,6 +234,11 @@ pub fn run() {
                 text: format!("Health: {current_health}"),
                 x: 430,
                 y: 16,
+            },
+            Text {
+                text: format!("Pos: {level_x}, {level_y}, {level_z}"),
+                x: 430,
+                y: 32,
             },
             Text {
                 text: format!("{statusline}"),
