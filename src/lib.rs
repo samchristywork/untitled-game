@@ -71,6 +71,7 @@ pub fn run() {
             scale: 1.0,
             idx: i as u32,
             attributes: vec![],
+            effects: vec![],
             show_debug: false,
             flip: false,
             invisible: false,
@@ -90,6 +91,7 @@ pub fn run() {
             scale: 1.0,
             idx: 9,
             attributes: vec![Attribute::Blocking],
+            effects: vec![],
             show_debug: false,
             flip: false,
             invisible: false,
@@ -122,6 +124,7 @@ pub fn run() {
                     Attribute::Consumable,
                     Attribute::Dynamic,
                 ],
+                effects: vec![],
                 show_debug: false,
                 flip: false,
                 invisible: false,
@@ -133,6 +136,12 @@ pub fn run() {
         }
 
         for idx in 0..sprites.len() {
+            for idx2 in 0..sprites[idx].effects.len() {
+                sprites[idx].effects[idx2].1 -= 1;
+            }
+
+            sprites[idx].effects.retain(|e| e.1 > 0);
+
             if sprites[idx].attributes.contains(&Attribute::Invisible) {
                 sprites[idx].invisible = true;
             }
@@ -191,8 +200,12 @@ pub fn run() {
                 for idx2 in 0..sprites.len() {
                     if sprites[idx2].attributes.contains(&Attribute::Stunning) {
                         if sprites[idx].collides_with(&sprites[idx2]) {
-                            if !sprites[idx].attributes.contains(&Attribute::Stunned) {
-                                sprites[idx].attributes.push(Attribute::Stunned);
+                            if !sprites[idx]
+                                .effects
+                                .iter()
+                                .any(|e| e.0 == Attribute::Stunned)
+                            {
+                                sprites[idx].effects.push((Attribute::Stunned, 50));
                             }
                         }
                     }
@@ -277,6 +290,14 @@ pub fn run() {
 
                 if sprites[idx].attributes.contains(&Attribute::Slowed) {
                     speed /= 2;
+                }
+
+                if sprites[idx]
+                    .effects
+                    .iter()
+                    .any(|e| e.0 == Attribute::Stunned)
+                {
+                    speed = 0;
                 }
 
                 if keyboard_state.contains("65") {

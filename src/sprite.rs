@@ -10,6 +10,7 @@ pub struct Sprite {
     pub scale: f32,
     pub idx: u32,
     pub attributes: Vec<Attribute>,
+    pub effects: Vec<(Attribute, i32)>,
     pub show_debug: bool,
     pub flip: bool,
     pub invisible: bool,
