@@ -27,6 +27,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
+            activate_action: |e| e,
         },
         Entity {
             name: "Heart".to_string(),
@@ -51,6 +52,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
+            activate_action: |e| e,
         },
         Entity {
             name: "Snek".to_string(),
@@ -78,6 +80,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
+            activate_action: |e| e,
         },
         Entity {
             name: "Snek".to_string(),
@@ -108,6 +111,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
+            activate_action: |e| e,
         },
         Entity {
             name: "Snek".to_string(),
@@ -135,6 +139,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
+            activate_action: |e| e,
         },
         Entity {
             name: "Wand".to_string(),
@@ -154,7 +159,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
-            activate_action: || {},
+            activate_action: |e| e,
         },
         Entity {
             name: "Lever".to_string(),
@@ -179,6 +184,11 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
+            activate_action: |mut e| {
+                e.x += 32;
+
+                e
+            },
         },
         Entity {
             name: "A".to_string(),
@@ -196,6 +206,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
+            activate_action: |e| e,
         },
         Entity {
             name: "Arrow Source".to_string(),
@@ -215,6 +226,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
+            activate_action: |e| e,
         },
     ];
 

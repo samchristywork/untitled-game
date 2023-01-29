@@ -117,6 +117,7 @@ pub fn run() {
             level_x: 1,
             level_y: 0,
             level_z: 0,
+            activate_action: |e| e,
         });
     }
 
@@ -139,6 +140,7 @@ pub fn run() {
             level_x: 0,
             level_y: 0,
             level_z: 0,
+            activate_action: |e| e,
         });
     }
 
@@ -188,6 +190,7 @@ pub fn run() {
                         level_x: 0,
                         level_y: 0,
                         level_z: 0,
+                        activate_action: |e| e,
                     })
                 }
             }
@@ -506,6 +509,10 @@ pub fn run() {
                                     entities[idx2]
                                         .attributes
                                         .retain(|e| !(e.kind == AttributeType::Off));
+
+                                    let e =
+                                        (entities[idx2].activate_action)(entities[idx2].clone());
+                                    entities[idx2] = e;
                                 } else {
                                     entities[idx2].idx -= 1;
                                     entities[idx2].attributes.push(Attribute {

@@ -1,9 +1,9 @@
-#[derive(PartialEq)]
+#[derive(PartialEq, Clone)]
 pub struct Attribute {
     pub kind: AttributeType,
 }
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Clone)]
 pub enum AttributeType {
     ArrowSource,
     Blocking,
