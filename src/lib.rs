@@ -485,6 +485,41 @@ pub fn run() {
                     level_x -= 1;
                 }
 
+                // Action
+                if keyboard_state.contains("69") && !previous_keyboard_state.contains("69") {
+                    for idx2 in 0..entities.len() {
+                        if entities[idx].collides_with(&entities[idx2]) {
+                            if entities[idx2]
+                                .attributes
+                                .iter()
+                                .any(|e| e.kind == AttributeType::Toggleable)
+                            {
+                                if entities[idx2]
+                                    .attributes
+                                    .iter()
+                                    .any(|e| e.kind == AttributeType::Off)
+                                {
+                                    entities[idx2].idx += 1;
+                                    entities[idx2].attributes.push(Attribute {
+                                        kind: AttributeType::On,
+                                    });
+                                    entities[idx2]
+                                        .attributes
+                                        .retain(|e| !(e.kind == AttributeType::Off));
+                                } else {
+                                    entities[idx2].idx -= 1;
+                                    entities[idx2].attributes.push(Attribute {
+                                        kind: AttributeType::Off,
+                                    });
+                                    entities[idx2]
+                                        .attributes
+                                        .retain(|e| !(e.kind == AttributeType::On));
+                                }
+                            }
+                        }
+                    }
+                }
+
                 // Blocking
                 for idx2 in 0..entities.len() {
                     if entities[idx2]
