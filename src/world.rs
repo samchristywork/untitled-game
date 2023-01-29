@@ -154,6 +154,31 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
+            activate_action: || {},
+        },
+        Entity {
+            name: "Lever".to_string(),
+            x: 140,
+            y: 50,
+            rotation: 0,
+            scale: 1.0,
+            idx: 12,
+            attributes: vec![
+                Attribute {
+                    kind: AttributeType::Off,
+                },
+                Attribute {
+                    kind: AttributeType::Toggleable,
+                },
+            ],
+            effects: vec![],
+            show_debug: false,
+            flip: false,
+            invisible: false,
+            size: 16,
+            level_x: 0,
+            level_y: 0,
+            level_z: 0,
         },
         Entity {
             name: "A".to_string(),

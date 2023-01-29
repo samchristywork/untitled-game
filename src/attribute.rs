@@ -1,11 +1,9 @@
-use serde::{Deserialize, Serialize};
-
-#[derive(Serialize, Deserialize, PartialEq)]
+#[derive(PartialEq)]
 pub struct Attribute {
     pub kind: AttributeType,
 }
 
-#[derive(Serialize, Deserialize, PartialEq)]
+#[derive(PartialEq)]
 pub enum AttributeType {
     ArrowSource,
     Blocking,
@@ -18,8 +16,11 @@ pub enum AttributeType {
     Healing,
     Invisible,
     Moving,
+    Off,
+    On,
     Player,
     Slowed,
     Stunned,
     Stunning,
+    Toggleable,
 }

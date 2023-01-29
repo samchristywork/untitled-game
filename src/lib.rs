@@ -100,7 +100,7 @@ pub fn run() {
 
     let mut entities = world::get_sprites();
 
-    for i in 0..12 {
+    for i in 0..14 {
         entities.push(Entity {
             name: "TEST".to_string(),
             x: 0 + 16 * i,
@@ -477,6 +477,7 @@ pub fn run() {
                     entities[idx].level_z = level_z;
                 }
 
+                // Change Level
                 if keyboard_state.contains("78") && !previous_keyboard_state.contains("78") {
                     level_x += 1;
                 }
