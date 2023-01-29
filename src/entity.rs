@@ -1,4 +1,5 @@
 use crate::attribute::Attribute;
+use crate::attribute::AttributeType;
 
 #[derive(Clone)]
 pub struct Entity {
@@ -17,7 +18,10 @@ pub struct Entity {
     pub level_x: i32,
     pub level_y: i32,
     pub level_z: i32,
-    pub activate_action: fn(e: Entity, linked: Vec<Entity>) -> Entity,
+    pub activate_action: (
+        String,
+        fn(e: Entity, linked: Vec<&Entity>) -> (Entity, Vec<Entity>),
+    ),
 }
 
 fn dist_squared(x1: i32, y1: i32, x2: i32, y2: i32) -> i32 {

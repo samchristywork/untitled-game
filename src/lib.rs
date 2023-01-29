@@ -117,7 +117,7 @@ pub fn run() {
             level_x: 1,
             level_y: 0,
             level_z: 0,
-            activate_action: |e, linked| e,
+            activate_action: (format!(""), |e, linked| (e, Vec::new())),
         });
     }
 
@@ -140,7 +140,7 @@ pub fn run() {
             level_x: 0,
             level_y: 0,
             level_z: 0,
-            activate_action: |e, linked| e,
+            activate_action: (format!(""), |e, linked| (e, Vec::new())),
         });
     }
 
@@ -190,7 +190,7 @@ pub fn run() {
                         level_x: 0,
                         level_y: 0,
                         level_z: 0,
-                        activate_action: |e, linked| e,
+                        activate_action: (format!(""), |e, linked| (e, Vec::new())),
                     })
                 }
             }
@@ -509,12 +509,6 @@ pub fn run() {
                                     entities[idx2]
                                         .attributes
                                         .retain(|e| !(e.kind == AttributeType::Off));
-
-                                    let e = (entities[idx2].activate_action)(
-                                        entities[idx2].clone(),
-                                        Vec::new(),
-                                    );
-                                    entities[idx2] = e;
                                 } else {
                                     entities[idx2].idx -= 1;
                                     entities[idx2].attributes.push(Attribute {
@@ -523,6 +517,22 @@ pub fn run() {
                                     entities[idx2]
                                         .attributes
                                         .retain(|e| !(e.kind == AttributeType::On));
+                                }
+                                let (e, linked) = (entities[idx2].activate_action.1)(
+                                    entities[idx2].clone(),
+                                    entities
+                                        .iter()
+                                        .filter(|e| e.name == entities[idx2].activate_action.0)
+                                        .collect::<Vec<&Entity>>(),
+                                );
+
+                                entities[idx2] = e;
+                                let mut count = 0;
+                                for idx3 in 0..entities.len() {
+                                    if entities[idx3].name == entities[idx2].activate_action.0 {
+                                        entities[idx3] = linked[count].clone();
+                                        count += 1;
+                                    }
                                 }
                             }
                         }
