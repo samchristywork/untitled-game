@@ -117,7 +117,7 @@ pub fn run() {
             level_x: 1,
             level_y: 0,
             level_z: 0,
-            activate_action: |e| e,
+            activate_action: |e, linked| e,
         });
     }
 
@@ -140,7 +140,7 @@ pub fn run() {
             level_x: 0,
             level_y: 0,
             level_z: 0,
-            activate_action: |e| e,
+            activate_action: |e, linked| e,
         });
     }
 
@@ -190,7 +190,7 @@ pub fn run() {
                         level_x: 0,
                         level_y: 0,
                         level_z: 0,
-                        activate_action: |e| e,
+                        activate_action: |e, linked| e,
                     })
                 }
             }
@@ -510,8 +510,10 @@ pub fn run() {
                                         .attributes
                                         .retain(|e| !(e.kind == AttributeType::Off));
 
-                                    let e =
-                                        (entities[idx2].activate_action)(entities[idx2].clone());
+                                    let e = (entities[idx2].activate_action)(
+                                        entities[idx2].clone(),
+                                        Vec::new(),
+                                    );
                                     entities[idx2] = e;
                                 } else {
                                     entities[idx2].idx -= 1;

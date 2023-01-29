@@ -17,7 +17,7 @@ pub struct Entity {
     pub level_x: i32,
     pub level_y: i32,
     pub level_z: i32,
-    pub activate_action: fn(e: Entity) -> Entity,
+    pub activate_action: fn(e: Entity, linked: Vec<Entity>) -> Entity,
 }
 
 fn dist_squared(x1: i32, y1: i32, x2: i32, y2: i32) -> i32 {
