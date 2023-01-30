@@ -190,6 +190,16 @@ pub fn get_sprites() -> Vec<Entity> {
                 for x in linked {
                     let mut y = x.clone();
 
+                    if e.has(AttributeType::On) {
+                        y.invisible = true;
+                        y.attributes
+                            .retain(|e| !(e.kind == AttributeType::Blocking));
+                    } else {
+                        y.invisible = false;
+                        y.attributes.push(Attribute {
+                            kind: AttributeType::Blocking,
+                        });
+                    }
                     ret.push(y);
                 }
 

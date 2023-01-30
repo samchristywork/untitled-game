@@ -47,4 +47,8 @@ impl Entity {
             false
         }
     }
+
+    pub fn has(&self, kind: AttributeType) -> bool {
+        self.attributes.iter().any(|e| e.kind == kind)
+    }
 }
