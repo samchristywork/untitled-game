@@ -508,7 +508,10 @@ pub fn run() {
                                     false => 16,
                                 },
                             y: entities[idx].y,
-                            rotation: 1,
+                            rotation: match entities[idx].flip {
+                                true => 3,
+                                false => 1,
+                            },
                             scale: 1.0,
                             idx: 1,
                             attributes: vec![
