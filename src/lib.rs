@@ -117,7 +117,7 @@ pub fn run() {
             level_x: 1,
             level_y: 0,
             level_z: 0,
-            activate_action: (format!(""), |e, linked| (e, Vec::new())),
+            activate_action: (format!(""), |e, _| (e, Vec::new())),
         });
     }
 
@@ -140,7 +140,7 @@ pub fn run() {
             level_x: 0,
             level_y: 0,
             level_z: 0,
-            activate_action: (format!(""), |e, linked| (e, Vec::new())),
+            activate_action: (format!(""), |e, _| (e, Vec::new())),
         });
     }
 
@@ -190,7 +190,7 @@ pub fn run() {
                         level_x: 0,
                         level_y: 0,
                         level_z: 0,
-                        activate_action: (format!(""), |e, linked| (e, Vec::new())),
+                        activate_action: (format!(""), |e, _| (e, Vec::new())),
                     })
                 }
             }
@@ -517,7 +517,7 @@ pub fn run() {
                             level_x: entities[idx].level_x,
                             level_y: entities[idx].level_y,
                             level_z: entities[idx].level_z,
-                            activate_action: (format!(""), |e, linked| (e, Vec::new())),
+                            activate_action: (format!(""), |e, _| (e, Vec::new())),
                         });
                     }
                 }

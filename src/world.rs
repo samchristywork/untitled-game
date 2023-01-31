@@ -27,7 +27,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
-            activate_action: (format!(""), |e, linked| (e, Vec::new())),
+            activate_action: (format!(""), |e, _| (e, Vec::new())),
         },
         Entity {
             name: "Heart".to_string(),
@@ -52,7 +52,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
-            activate_action: (format!(""), |e, linked| (e, Vec::new())),
+            activate_action: (format!(""), |e, _| (e, Vec::new())),
         },
         Entity {
             name: "Snek".to_string(),
@@ -80,7 +80,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
-            activate_action: (format!(""), |e, linked| (e, Vec::new())),
+            activate_action: (format!(""), |e, _| (e, Vec::new())),
         },
         Entity {
             name: "Snek".to_string(),
@@ -111,7 +111,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
-            activate_action: (format!(""), |e, linked| (e, Vec::new())),
+            activate_action: (format!(""), |e, _| (e, Vec::new())),
         },
         Entity {
             name: "Snek".to_string(),
@@ -139,7 +139,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
-            activate_action: (format!(""), |e, linked| (e, Vec::new())),
+            activate_action: (format!(""), |e, _| (e, Vec::new())),
         },
         Entity {
             name: "Wand".to_string(),
@@ -159,7 +159,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
-            activate_action: (format!(""), |e, linked| (e, Vec::new())),
+            activate_action: (format!(""), |e, _| (e, Vec::new())),
         },
         Entity {
             name: "Lever".to_string(),
@@ -222,7 +222,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
-            activate_action: (format!(""), |e, linked| (e, Vec::new())),
+            activate_action: (format!(""), |e, _| (e, Vec::new())),
         },
         Entity {
             name: "Arrow Source".to_string(),
@@ -242,7 +242,7 @@ pub fn get_sprites() -> Vec<Entity> {
             level_x: 0,
             level_y: 0,
             level_z: 0,
-            activate_action: (format!(""), |e, linked| (e, Vec::new())),
+            activate_action: (format!(""), |e, _| (e, Vec::new())),
         },
     ];
 
