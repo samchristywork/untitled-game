@@ -271,7 +271,13 @@ pub fn run() {
                     speed /= 2;
                 }
 
-                entities[idx].x += speed;
+                if entities[idx].has(AttributeType::GoingRight) {
+                    entities[idx].x += speed;
+                }
+                if entities[idx].has(AttributeType::GoingLeft) {
+                    entities[idx].x -= speed;
+                }
+
                 for idx2 in 0..entities.len() {
                     if entities[idx2]
                         .attributes

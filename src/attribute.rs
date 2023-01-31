@@ -11,6 +11,8 @@ pub enum AttributeType {
     Consumed,
     Controllable,
     Dynamic,
+    GoingLeft,
+    GoingRight,
     Harmful,
     Hastened,
     Healing,
