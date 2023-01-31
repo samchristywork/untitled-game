@@ -181,6 +181,9 @@ pub fn run() {
                             Attribute {
                                 kind: AttributeType::Dynamic,
                             },
+                            Attribute {
+                                kind: AttributeType::GoingRight,
+                            },
                         ],
                         effects: vec![],
                         show_debug: false,
@@ -499,7 +502,11 @@ pub fn run() {
                     if entities[idx].has(AttributeType::Controllable) {
                         entities.push(Entity {
                             name: "Arrow".to_string(),
-                            x: entities[idx].x + 32,
+                            x: entities[idx].x
+                                + match entities[idx].flip {
+                                    true => -16,
+                                    false => 16,
+                                },
                             y: entities[idx].y,
                             rotation: 1,
                             scale: 1.0,
@@ -513,6 +520,12 @@ pub fn run() {
                                 },
                                 Attribute {
                                     kind: AttributeType::Dynamic,
+                                },
+                                Attribute {
+                                    kind: match entities[idx].flip {
+                                        true => AttributeType::GoingLeft,
+                                        false => AttributeType::GoingRight,
+                                    },
                                 },
                             ],
                             effects: vec![],
