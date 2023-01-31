@@ -488,6 +488,40 @@ pub fn run() {
                     level_x -= 1;
                 }
 
+                // Shoot
+                if keyboard_state.contains("75") && !previous_keyboard_state.contains("75") {
+                    if entities[idx].has(AttributeType::Controllable) {
+                        entities.push(Entity {
+                            name: "Arrow".to_string(),
+                            x: entities[idx].x + 32,
+                            y: entities[idx].y,
+                            rotation: 1,
+                            scale: 1.0,
+                            idx: 1,
+                            attributes: vec![
+                                Attribute {
+                                    kind: AttributeType::Harmful,
+                                },
+                                Attribute {
+                                    kind: AttributeType::Consumable,
+                                },
+                                Attribute {
+                                    kind: AttributeType::Dynamic,
+                                },
+                            ],
+                            effects: vec![],
+                            show_debug: false,
+                            flip: false,
+                            invisible: false,
+                            size: 16,
+                            level_x: entities[idx].level_x,
+                            level_y: entities[idx].level_y,
+                            level_z: entities[idx].level_z,
+                            activate_action: (format!(""), |e, linked| (e, Vec::new())),
+                        });
+                    }
+                }
+
                 // Action
                 if keyboard_state.contains("69") && !previous_keyboard_state.contains("69") {
                     for idx2 in 0..entities.len() {
