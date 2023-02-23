@@ -1,6 +1,5 @@
 pub mod attribute;
 pub mod entity;
-pub mod utils;
 pub mod world;
 
 use crate::attribute::Attribute;
