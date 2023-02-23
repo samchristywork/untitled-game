@@ -8,6 +8,16 @@ like entity-component systems and graphics.
 
 ## Features
 
+## Dependencies
+
+You will need Rust, Cargo, the Rust webassembly target architecture, and Wasm
+Pack. You can get the latter two with these commands:
+
+```
+cargo install wasm-pack
+rustup target add wasm32-unknown-unknown
+```
+
 ## Usage
 
 ## License
