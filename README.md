@@ -6,6 +6,15 @@ This is an experimental game that I have been working on. I have been using it
 to learn webassembly and have been playing around with some game-making concepts
 like entity-component systems and graphics.
 
+## Game Concepts
+
+One of the main goals of this game is to play around with the idea that
+everything in the game is an entity with attributes that modify the thing's
+behavior. An example of an attribute is "harmful". When such an entity comes
+into contact with the player character, the player's health is reduced. Another
+example is "fast", which is an attribute that modifies the speed of an entity.
+Using this simple principle, we can rapidly code complex behavior into the game.
+
 ## Features
 
 ## Dependencies
