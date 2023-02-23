@@ -10,7 +10,7 @@ like entity-component systems and graphics.
 
 ## Dependencies
 
-You will need Rust, Cargo, the Rust webassembly target architecture, and Wasm
+You will need Rust, Cargo, the Rust webassembly target architecture, and WASM
 Pack. You can get the latter two with these commands:
 
 ```
@@ -19,6 +19,16 @@ rustup target add wasm32-unknown-unknown
 ```
 
 ## Usage
+
+Build the code and place resultant WASM output in `public/pkg/`.
+
+```
+wasm-pack build --target web --out-dir public/pkg/
+```
+
+Use any server to host the static files in `public`. For instance, you could run
+`python3 -m http.server` from the `public` directory to serve the files, or you
+could use any other web server.
 
 ## License
 
