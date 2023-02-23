@@ -2,7 +2,9 @@
 
 ## Overview
 
-## Screenshots
+This is an experimental game that I have been working on. I have been using it
+to learn webassembly and have been playing around with some game-making concepts
+like entity-component systems and graphics.
 
 ## Features
 
