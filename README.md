@@ -17,6 +17,15 @@ Using this simple principle, we can rapidly code complex behavior into the game.
 
 ## Features
 
+- Attribute and effects systems.
+- Demonstrates complex game logic from simple ECS principles.
+- Sprite transforms including flip, rotate, scale, and translate.
+- Multiple maps/scrollable screens.
+- Function hooks can be called when entities are "activated".
+- Collision detection between entities.
+- Demonstrates a bi-directional interface between Rust and Javascript.
+- Game loop using request animation frame.
+
 ## Dependencies
 
 You will need Rust, Cargo, the Rust webassembly target architecture, and WASM
