@@ -25,6 +25,10 @@ Using this simple principle, we can rapidly code complex behavior into the game.
 - Collision detection between entities.
 - Demonstrates a bi-directional interface between Rust and Javascript.
 - Game loop using request animation frame.
+- Visuals like sprites, text, and HUD-style UI elements.
+- Debug mode and statusline.
+- Keyboard control including modifier keys like shift and control.
+- A lovingly crafted sprite sheet and logic to display the sprites.
 
 ## Dependencies
 
